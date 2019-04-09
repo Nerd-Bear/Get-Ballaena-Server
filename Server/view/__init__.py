@@ -29,7 +29,7 @@ class Router(Util):
         self.app.add_url_rule('/hook', view_func=self.webhook_event_handler, methods=['POST'])
 
         from view.auth import AuthView
-        self.api.add_resource(AuthView, '/auth/<int:gameKey>')
+        self.api.add_resource(AuthView, '/auth/<deviceUUID>')
 
         from view.map import MapView
         self.api.add_resource(MapView, '/map')

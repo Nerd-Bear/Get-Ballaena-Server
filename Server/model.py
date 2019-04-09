@@ -72,6 +72,5 @@ class UserModel(Document):
     )
 
     team: TeamModel = ReferenceField(
-        document_type=TeamModel,
-        required=True
+        document_type=TeamModel
     )

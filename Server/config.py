@@ -1,6 +1,4 @@
 import os
-from datetime import datetime
-from json import loads
 
 
 class Config:

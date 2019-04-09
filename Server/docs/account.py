@@ -1,49 +1,34 @@
 from . import parameter
 
-CHECK_GAME_KEY_GET = {
+CHECK_DEVICE_UUID_GET = {
     'tags': ['Account'],
-    'description': '게임키 유효성 확인',
+    'description': '이미 가입 되어있는 device uuid인지 확인',
     'parameters': [
-        parameter('gameKey', '게임 인증키', 'uri', 'int')
+        parameter('deviceUUID', '디바이스 uuid', 'url')
     ],
     'responses': {
         '200': {
-            'description': '유효한 인증키',
-            'examples': {
-                '': {
-                    'gameKey': '게임키 들어갈거임'
-                }
-            }
+            'description': '가입된 device uuid'
         },
         '204': {
-            'description': '잘못된 게임 인증키'
+            'description': '가입 안되어 있는 device uuid'
         }
     }
 }
 
 AUTH_POST = {
     'tags': ['Account'],
-    'description': '로그인',
+    'description': '회원가입',
     'parameters': [
-        parameter('gameKey', '게임 인증키', 'uri', 'int'),
-        parameter('id', '아이디'),
-        parameter('password', '비밀번호'),
-        parameter('email', '이메일')
+        parameter('name', '이름 or 닉네임'),
+        parameter('deviceUUID', '디바이스 uuid', 'url')
     ],
     'responses': {
-        '200': {
+        '201': {
             'description': '인증 또는 회원가입 성공',
-            'examples': {
-                '': {
-                    'accessToken': '액세스 토오오오큰'
-                }
-            }
-        },
-        '204': {
-            'description': '잘못된 게임 인증키'
         },
         '205': {
-            'description': '잘못된 비밀번호'
+            'description': '이미 존재하는 이름'
         }
     }
 }
