@@ -215,7 +215,7 @@ TEAM_POST = {
     'description': '팀 참가',
     'parameters': [
         device_uuid,
-        parameter('team', '팀 넘버', 'query string', 'int')
+        parameter('teamName', '팀 이름', 'json')
     ],
     'responses': {
         '201': {

@@ -11,7 +11,7 @@ class TeamModel(Document):
     }
 
     team_name: str = StringField(
-        required=True
+        primary_key=True
     )
 
 

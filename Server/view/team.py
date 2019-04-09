@@ -12,13 +12,11 @@ class TeamView(Resource):
 
     @swag_from(TEAM_GET)
     def get(self) -> Response:
-        team_objects: List[model.TeamModel] = model.TeamModel.objects(game=g.game)
-        result = {'teamCount': len(team_objects)}
-
-        for team in team_objects:
-            result[str(team.team_id)] = {
+        teams: List[model.TeamModel] = model.TeamModel.objects()
+        result = {}
+        for team in teams:
+            result[team.team_name] = {
                 'member': [user.user_id for user in model.UserModel.objects(team=team)],
-                'teamColor': team.team_color
             }
 
         return jsonify(result)
@@ -28,11 +26,11 @@ class TeamView(Resource):
         if not g.user:
             abort(403)
 
-        if g.user.team.team_id != 0:
+        if g.user.team is not None:
             return Response('', 204)
 
-        team: model.TeamModel = model.TeamModel.objects(team_id=int(request.args.get('team'))).first()
-        if (not team) or len(model.UserModel.objects(team=team)) > 5:
+        team: model.TeamModel = model.TeamModel.objects(team_name=request.json['teamName']).first()
+        if not team:
             return Response('', 205)
 
         g.user.team = team
