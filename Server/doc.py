@@ -74,20 +74,8 @@ SOLVE_GET = {
         '205': {
             'description': '이미 해당팀에서 점령한 부스임'
         },
-        '401': {
-            'description': 'request header 에 access token 없음 '
-        },
-        '403': {
-            'description': '권한 없음'
-        },
-        '406': {
-            'description': '게임 시작 전'
-        },
         '408': {
             'description': '딜레이 시간'
-        },
-        '412': {
-            'description': '게임 종료'
         }
     }
 }
@@ -99,7 +87,7 @@ SOLVE_POST = {
         device_uuid,
         parameter('boothName', '부스 이름', 'url'),
         parameter('problemId', '문제 아이디'),
-        parameter('answer', '정답 (보기 내용)')
+        parameter('answer', '정답 (보기 내용 ex. 1번 보기)')
     ],
     'responses': {
         '201': {
@@ -111,20 +99,8 @@ SOLVE_POST = {
         '205': {
             'description': '오답'
         },
-        '401': {
-            'description': 'request header 에 access token 없음 '
-        },
-        '403': {
-            'description': '권한 없음'
-        },
-        '406': {
-            'description': '게임 시작 전'
-        },
         '408': {
             'description': '딜레이 시간'
-        },
-        '412': {
-            'description': '게임 종료'
         }
     }
 }
@@ -149,16 +125,9 @@ MAP_GET = {
                         'NoNamed': -1,
                         'LUNA': -1
                     },
-                    'myTeam': 3,
-                    'myTeamColor': '#58c9b9'
+                    'myTeam': '흰수염고래',
                 }
             }
-        },
-        '401': {
-            'description': 'request header 에 access token 없음 '
-        },
-        '403': {
-            'description': '권한 없음'
         }
     }
 }
@@ -174,38 +143,27 @@ TEAM_GET = {
             'description': 'get 성공',
             'examples': {
                 '': {
-                    'teamCount': 4,
-                    '1': {
-                        'teamColor': '#aaaaaa',
+                    '흰수염고래': {
                         'member': [
                             'ㅁㅁ',
                             'ㅇㅇ',
                             'ㄷㄷ'
                         ],
                     },
-                    '2': {
-                        'teamColor': '#bbbbbb',
+                    '돌고래': {
                         'member': [
                             'aa',
                             'dd'
                         ]
                     },
-                    '3': {
-                        'teamColor': '#5a4b4d',
+                    '술고래': {
                         'member': []
                     },
-                    '4': {
-                        'teamColor': '#73847d',
+                    '고래고래': {
                         'member': ['상민이']
                     }
                 }
             }
-        },
-        '401': {
-            'description': 'request header 에 access token 없음 '
-        },
-        '403': {
-            'description': '권한 없음'
         }
     }
 }
@@ -226,12 +184,6 @@ TEAM_POST = {
         },
         '205': {
             'description': '팀원 초과, 잘못된 팀 번호'
-        },
-        '401': {
-            'description': 'request header 에 access token 없음 '
-        },
-        '403': {
-            'description': '권한 없음'
         }
     }
 }
