@@ -11,17 +11,8 @@ import model
 
 class SolveView(Resource):
 
-    def _check_time(self, game):
-        now: datetime = datetime.now()
-        if now < game.start_time:
-            abort(406)
-        if game.end_time <= now:
-            abort(412)
-
     @swag_from(SOLVE_GET)
     def get(self, boothName: str) -> Response:
-
-        self._check_time(g.game)
 
         booth: model.BoothModel = model.BoothModel.objects(booth_name=boothName).first()
         if not booth:
@@ -36,7 +27,7 @@ class SolveView(Resource):
         problem: model.ProblemModel = choice(model.ProblemModel.objects())
 
         response = {'boothName': boothName,
-                    'problemId': problem.problem_id,
+                    'problemId': problem.id,
                     'content': problem.content,
                     'choices': problem.choices}
 
@@ -44,8 +35,6 @@ class SolveView(Resource):
 
     @swag_from(SOLVE_POST)
     def post(self, boothName: str) -> Response:
-
-        self._check_time(g.game)
 
         payload: dict = request.json
 
