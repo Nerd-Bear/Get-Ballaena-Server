@@ -19,9 +19,10 @@ class AuthView(Resource):
     def post(self, deviceUUID: str) -> Response:
         payload: dict = request.json
 
-        user: model.UserModel = model.UserModel.objects(name=payload['name']).first()
-        if user is not None:
-            return Response('exist name', 205)
+        user1: model.UserModel = model.UserModel.objects(name=payload['name']).first()
+        user2: model.UserModel = model.UserModel.objects(device_uuid=deviceUUID).first()
+        if not all((user1, user2)):
+            return Response('exist name or deviceUUID', 205)
 
         model.UserModel(name=payload['name'], device_uuid=deviceUUID).save()
         return Response('', 201)
