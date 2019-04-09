@@ -23,5 +23,4 @@ def create_app() -> Flask:
     connect('get-terra')
 
     Swagger(app, template=app.config['SWAGGER_TEMPLATE'])
-
     return app
