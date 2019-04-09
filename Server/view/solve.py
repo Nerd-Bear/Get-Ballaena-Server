@@ -1,3 +1,4 @@
+from bson import ObjectId
 from datetime import datetime, timedelta
 from random import choice
 
@@ -27,7 +28,7 @@ class SolveView(Resource):
         problem: model.ProblemModel = choice(model.ProblemModel.objects())
 
         response = {'boothName': boothName,
-                    'problemId': problem.id,
+                    'problemId': str(problem.id),
                     'content': problem.content,
                     'choices': problem.choices}
 
@@ -38,7 +39,7 @@ class SolveView(Resource):
 
         payload: dict = request.json
 
-        problem: model.ProblemModel = model.ProblemModel.objects(problem_id=payload['problemId']).first()
+        problem: model.ProblemModel = model.ProblemModel.objects(problem_id=ObjectId(payload['problemId'])).first()
         booth: model.BoothModel = model.BoothModel.objects(booth_name=boothName).first()
         if not all((problem, booth)):
             return Response('', 204)

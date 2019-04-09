@@ -1,52 +1,54 @@
 from json import dumps
 
 
-def check_game_key_request(self, game_key=100000):
+def check_game_key_request(self, device_uuid='test_uuid'):
     return self.client.get(
-        '/auth/' + str(game_key)
+        f'/auth/{device_uuid}'
     )
 
 
-def auth_request(self, game_key=100000, id_='Nerd-Bear', password='NerdBear', email='python@istruly.sexy'):
+def auth_post_request(self, device_uuid='test_uuid', name='sangmin'):
     return self.client.post(
-        '/auth/'+str(game_key),
-        data=dumps(dict(id=id_, password=password, email=email)),
+        f'/auth/{device_uuid}',
+        data=dumps({'name': name}),
         content_type='application/json'
     )
 
 
-def map_get_request(self):
+def map_get_request(self, device_uuid='test_uuid'):
     return self.client.get(
         '/map',
-        headers={'Authorization': self.access_token}
+        headers={'deviceUUID': device_uuid}
     )
 
 
-def solve_get_request(self, booth_name='booth0'):
+def solve_get_request(self, booth_name='test_booth', device_uuid='test_uuid'):
     return self.client.get(
         f'/solve/{booth_name}',
-        headers={'Authorization': self.access_token}
+        headers={'deviceUUID': device_uuid}
     )
 
 
-def solve_post_request(self, booth_name='booth0', problem_id=1, answer='1'):
+def solve_post_request(self, problem_id: str, booth_name='test_booth', answer='1', device_uuid='test_uuid'):
     return self.client.post(
         f'/solve/{booth_name}',
         data=dumps(dict(problemId=problem_id, answer=answer)),
         content_type='application/json',
-        headers={'Authorization': self.access_token}
+        headers={'deviceUUID': device_uuid}
     )
 
 
-def team_get_request(self):
+def team_get_request(self, device_uuid='test_uuid'):
     return self.client.get(
         '/team',
-        headers={'Authorization': self.access_token}
+        headers={'deviceUUID': device_uuid}
     )
 
 
-def team_post_request(self, team_number=1):
+def team_post_request(self, team_name='test_team', device_uuid='test_uuid'):
     return self.client.post(
-        f'/team?team={team_number}',
-        headers={'Authorization': self.access_token}
+        '/team',
+        data=dumps({'teamName': team_name}),
+        content_type='application/json',
+        headers={'deviceUUID': device_uuid}
     )
