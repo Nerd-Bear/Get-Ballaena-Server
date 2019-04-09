@@ -27,8 +27,7 @@ class BoothModel(Document):
     )
 
     own_team: TeamModel = ReferenceField(
-        document_type=TeamModel,
-        required=True
+        document_type=TeamModel
     )
 
     next_capture_time: datetime = DateTimeField(
