@@ -2,27 +2,19 @@ from typing import List
 
 from flask_restful import Resource
 from flasgger import swag_from
-from flask import jsonify, abort, g, Response
-from flask_jwt_extended import jwt_required
+from flask import jsonify, g, Response
 
-from docs.map import MAP_GET
-from model.booth import BoothModel
-from model.team import TeamModel
-from util import set_g_object
+from doc import MAP_GET
+import model
 
 
 class MapView(Resource):
 
     @swag_from(MAP_GET)
-    @jwt_required
-    @set_g_object
     def get(self) -> Response:
-        if not g.user:
-            return abort(403)
-
-        default_team: TeamModel = TeamModel.objects(team_id=0, game=g.game).first()
+        default_team: model.TeamModel = model.TeamModel.objects(team_id=0, game=g.game).first()
         map_: dict = {'map': {}, 'myTeam': g.user.team.team_id, 'myTeamColor': g.user.team.team_color}
-        booths: List[BoothModel] = BoothModel.objects(game=g.game)
+        booths: List[model.BoothModel] = model.BoothModel.objects(game=g.game)
 
         for booth in booths:
             if booth.own_team == default_team:

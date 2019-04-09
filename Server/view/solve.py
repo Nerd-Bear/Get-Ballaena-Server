@@ -4,18 +4,14 @@ from random import choice
 from flask_restful import Resource
 from flasgger import swag_from
 from flask import Response, jsonify, abort, request, g
-from flask_jwt_extended import jwt_required
 
-from docs.solve import SOLVE_GET, SOLVE_POST
-from model.game import GameModel
-from model.problem import ProblemModel
-from model.booth import BoothModel
-from util import set_g_object
+from doc import SOLVE_GET, SOLVE_POST
+import model
 
 
 class SolveView(Resource):
 
-    def _check_time(self, game: GameModel):
+    def _check_time(self, game):
         now: datetime = datetime.now()
         if now < game.start_time:
             abort(406)
@@ -23,13 +19,11 @@ class SolveView(Resource):
             abort(412)
 
     @swag_from(SOLVE_GET)
-    @jwt_required
-    @set_g_object
     def get(self, boothName: str) -> Response:
 
         self._check_time(g.game)
 
-        booth: BoothModel = BoothModel.objects(booth_name=boothName).first()
+        booth: model.BoothModel = model.BoothModel.objects(booth_name=boothName).first()
         if not booth:
             return Response('', 204)
 
@@ -39,7 +33,7 @@ class SolveView(Resource):
         if booth.next_capture_time > datetime.now():
             abort(408)
 
-        problem: ProblemModel = choice(ProblemModel.objects())
+        problem: model.ProblemModel = choice(model.ProblemModel.objects())
 
         response = {'boothName': boothName,
                     'problemId': problem.problem_id,
@@ -49,16 +43,14 @@ class SolveView(Resource):
         return jsonify(response)
 
     @swag_from(SOLVE_POST)
-    @jwt_required
-    @set_g_object
     def post(self, boothName: str) -> Response:
 
         self._check_time(g.game)
 
         payload: dict = request.json
 
-        problem: ProblemModel = ProblemModel.objects(problem_id=payload['problemId']).first()
-        booth: BoothModel = BoothModel.objects(booth_name=boothName).first()
+        problem: model.ProblemModel = model.ProblemModel.objects(problem_id=payload['problemId']).first()
+        booth: model.BoothModel = model.BoothModel.objects(booth_name=boothName).first()
         if not all((problem, booth)):
             return Response('', 204)
 

@@ -2,8 +2,8 @@ from flask_restful import Resource
 from flasgger import swag_from
 from flask import request, Response
 
-from docs.account import AUTH_POST, CHECK_DEVICE_UUID_GET
-from .. import model
+from doc import AUTH_POST, CHECK_DEVICE_UUID_GET
+import model
 
 
 class AuthView(Resource):
