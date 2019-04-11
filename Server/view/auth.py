@@ -24,5 +24,5 @@ class AuthView(Resource):
         if any((user1, user2)):
             return Response('exist name or deviceUUID', 205)
 
-        model.UserModel(name=payload['name'], device_uuid=deviceUUID).save()
+        model.UserModel(name=payload['name'], device_uuid=deviceUUID, team_name=request.json['teamName']).save()
         return Response('', 201)

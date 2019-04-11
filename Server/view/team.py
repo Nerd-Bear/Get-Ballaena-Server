@@ -2,9 +2,9 @@ from typing import List
 
 from flask_restful import Resource
 from flasgger import swag_from
-from flask import abort, jsonify, Response, request, g
+from flask import jsonify, Response
 
-from doc import TEAM_GET, TEAM_POST
+from doc import TEAM_GET
 import model
 
 
@@ -20,20 +20,3 @@ class TeamView(Resource):
             }
 
         return jsonify(result)
-
-    @swag_from(TEAM_POST)
-    def post(self) -> Response:
-        if not g.user:
-            abort(403)
-
-        if g.user.team is not None:
-            return Response('', 204)
-
-        team: model.TeamModel = model.TeamModel.objects(team_name=request.json['teamName']).first()
-        if not team:
-            return Response('', 205)
-
-        g.user.team = team
-        g.user.save()
-
-        return Response('', 201)

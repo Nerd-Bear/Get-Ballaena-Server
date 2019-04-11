@@ -32,7 +32,8 @@ AUTH_POST = {
     'description': '회원가입',
     'parameters': [
         parameter('name', '이름 or 닉네임'),
-        parameter('deviceUUID', '디바이스 uuid', 'url')
+        parameter('deviceUUID', '디바이스 uuid', 'url'),
+        parameter('teamName', '팀이름'),
     ],
     'responses': {
         '201': {
@@ -164,26 +165,6 @@ TEAM_GET = {
                     }
                 }
             }
-        }
-    }
-}
-
-TEAM_POST = {
-    'tags': ['Team'],
-    'description': '팀 참가',
-    'parameters': [
-        device_uuid,
-        parameter('teamName', '팀 이름', 'json')
-    ],
-    'responses': {
-        '201': {
-            'description': '참가 성공'
-        },
-        '204': {
-            'description': '이미 팀에 소속되어 있음'
-        },
-        '205': {
-            'description': '팀원 초과, 잘못된 팀 번호'
         }
     }
 }
