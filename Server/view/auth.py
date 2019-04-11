@@ -11,7 +11,7 @@ class AuthView(Resource):
     @swag_from(CHECK_DEVICE_UUID_GET)
     def get(self, deviceUUID: str) -> Response:
         user = model.UserModel.objects(device_uuid=deviceUUID).first()
-        if user is None:
+        if user:
             return Response('', 200)
         return Response('', 204)
 
