@@ -213,7 +213,7 @@ ALWAYS_MAP_GET = {
 
 ALWAYS_CAPTURE_GET = {
     'tags': ['Always'],
-    'description': '상시 캡쳐',
+    'description': '상시 캡쳐 (모든 캡쳐 완료시 쿠폰 자동발급)',
     'parameters': [
         device_uuid,
         parameter('boothName', '캡쳐할 부스의 이름')
@@ -223,7 +223,7 @@ ALWAYS_CAPTURE_GET = {
             'description': '캡쳐 성공'
         },
         '201': {
-            'description': '미션 완료'
+            'description': '미션 완료 (쿠폰 자동 발급)'
         },
         '204': {
             'description': '잘못된 부스 이름'

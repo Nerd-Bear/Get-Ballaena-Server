@@ -109,6 +109,7 @@ class UserModel(Document):
     always_capture: List[AlwaysBoothModel] = ListField(
         ReferenceField(
             document_type=AlwaysBoothModel,
+            reverse_delete_rule=CASCADE,
         ),
         default=[],
     )
@@ -116,6 +117,22 @@ class UserModel(Document):
     ad_capture: List[AdQRModel] = ListField(
         ReferenceField(
             document_type=AdQRModel,
+            reverse_delete_rule=CASCADE,
         ),
         default=[],
+    )
+
+
+class CouponModel(Document):
+
+    meta = {
+        'collection': 'coupon'
+    }
+
+    coupon_name: str = StringField(
+        required=True
+    )
+    user: UserModel = ReferenceField(
+        document_type=UserModel,
+        reverse_delete_rule=CASCADE,
     )

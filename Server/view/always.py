@@ -40,6 +40,10 @@ class AlwaysCaptureView(Resource):
         g.user.always_capture.append(booth)
         g.user.save()
         if len(g.user.always_capture) == len(model.AlwaysBoothModel.objects):
+            model.CouponModel(
+                coupon_name='상시 이벤트 쿠폰',
+                user=g.user,
+            ).save()
             return Response('', 201)
         return Response('', 200)
 
