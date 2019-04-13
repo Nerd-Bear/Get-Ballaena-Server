@@ -9,7 +9,7 @@ import model
 class AdCaptureView(Resource):
 
     @swag_from(AD_CAPTURE_GET)
-    def get(self) -> Response:
+    def post(self) -> Response:
         ad_name = request.json['adhName']
         ad = model.AdQRModel.objects(ad_name=ad_name).first()
 
