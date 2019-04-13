@@ -47,3 +47,6 @@ class Router(Util):
 
         from view.coupon import CouponView
         self.api.add_resource(CouponView, '/coupon')
+
+        from view.ad import AdCaptureView
+        self.api.add_resource(AdCaptureView, '/ad')

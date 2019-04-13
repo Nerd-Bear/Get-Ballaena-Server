@@ -61,7 +61,7 @@ class AdQRModel(Document):
         "collection": "ad_qr"
     }
 
-    ad: str = StringField(
+    ad_name: str = StringField(
         primary_key=True,
         required=True
     )

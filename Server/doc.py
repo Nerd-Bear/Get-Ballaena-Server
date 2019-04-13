@@ -234,6 +234,29 @@ ALWAYS_CAPTURE_GET = {
     }
 }
 
+AD_CAPTURE_GET = {
+    'tags': ['AD'],
+    'description': '광고 캡쳐 (모든 캡쳐 완료시 쿠폰 자동발급)',
+    'parameters': [
+        device_uuid,
+        parameter('adName', '캡쳐할 광고의 이름')
+    ],
+    'responses': {
+        '200': {
+            'description': '캡쳐 성공'
+        },
+        '201': {
+            'description': '미션 완료 (쿠폰 자동 발급)'
+        },
+        '204': {
+            'description': '잘못된 광고 이름'
+        },
+        '205': {
+            'description': '이미 캡쳐된 광고임'
+        }
+    }
+}
+
 TEAM_GET = {
     'tags': ['Team'],
     'description': '팀별 팀원 리스트',
