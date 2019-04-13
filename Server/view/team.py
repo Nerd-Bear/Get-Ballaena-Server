@@ -2,7 +2,7 @@ from typing import List
 
 from flask_restful import Resource
 from flasgger import swag_from
-from flask import jsonify, Response, request
+from flask import jsonify, Response, request, g
 
 from doc import TEAM_GET, TEAM_POST
 import model
