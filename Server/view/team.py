@@ -26,7 +26,7 @@ class TeamView(Resource):
         if g.user.team is not None:
             return Response('', 204)
 
-        team: model.TeamModel = model.TeamModel.objects(team_name=int(request.json.get('teamName'))).first()
+        team: model.TeamModel = model.TeamModel.objects(team_name=request.json.get('teamName')).first()
         if team is None:
             return Response('', 205)
 
