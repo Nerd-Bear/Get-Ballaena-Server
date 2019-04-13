@@ -33,6 +33,9 @@ class WebMapView(Resource):
         booths: List[model.BoothModel] = model.BoothModel.objects()
         map_ = {'map': {}}
         for booth in booths:
-            map_['map'][booth.booth_name] = booth.own_team.team_name or ''
+            if booth.own_team is None:
+                map_['map'][booth.booth_name] = booth.own_team or ''
+            else:
+                map_['map'][booth.booth_name] = booth.own_team.team_name
 
         return jsonify(map_)
