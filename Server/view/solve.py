@@ -39,7 +39,7 @@ class SolveView(Resource):
 
         payload: dict = request.json
 
-        problem: model.ProblemModel = model.ProblemModel.objects(_id=ObjectId(payload['problemId'])).first()
+        problem: model.ProblemModel = model.ProblemModel.objects(id=ObjectId(payload['problemId'])).first()
         booth: model.BoothModel = model.BoothModel.objects(booth_name=boothName).first()
         if not all((problem, booth)):
             return Response('', 204)
