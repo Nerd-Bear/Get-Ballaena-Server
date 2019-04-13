@@ -16,7 +16,7 @@ class TeamView(Resource):
         result = {}
         for team in teams:
             result[team.team_name] = {
-                'member': [user.device_uuid for user in model.UserModel.objects(team=team)],
+                'member': [user.name for user in model.UserModel.objects(team=team)],
             }
 
         return jsonify(result)
