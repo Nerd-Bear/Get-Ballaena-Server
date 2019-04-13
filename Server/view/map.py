@@ -17,11 +17,16 @@ class MapView(Resource):
 
         for booth in booths:
             if booth.own_team is None:
-                map_['map'][booth.booth_name] = -1
+                value = -1
             elif booth.own_team == g.user.team:
-                map_['map'][booth.booth_name] = 1
+                value = 1
             else:
-                map_['map'][booth.booth_name] = 0
+                value = 0
+            map_['map'][booth.booth_name] = {
+                'team': value,
+                'latitude': booth.latitude,
+                'longitude': booth.longitude,
+            }
 
         return jsonify(map_)
 
@@ -33,9 +38,10 @@ class WebMapView(Resource):
         booths: List[model.BoothModel] = model.BoothModel.objects()
         map_ = {'map': {}}
         for booth in booths:
-            if booth.own_team is None:
-                map_['map'][booth.booth_name] = booth.own_team or ''
-            else:
-                map_['map'][booth.booth_name] = booth.own_team.team_name
+            map_['map'][booth.booth_name] = {
+                'teamName': '' if booth.own_team is None else booth.own_team.team_name,
+                'latitude': booth.latitude,
+                'longitude': booth.longitude,
+            }
 
         return jsonify(map_)

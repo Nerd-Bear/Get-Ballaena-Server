@@ -119,11 +119,21 @@ MAP_GET = {
             'examples': {
                 '': {
                     'map': {
-                        'GRAM': 1,
-                        '시나브로': 0,
-                        'Undefined': 1,
-                        'NoNamed': -1,
-                        'LUNA': -1
+                        '고래 유적지': {
+                            'team': 1,
+                            'latitude': 12.424121,
+                            'longitude': 52.321121,
+                        },
+                        '고래 문화 재단': {
+                            'team': 0,
+                            'latitude': 44.32532,
+                            'longitude': 33.42432,
+                        },
+                        '고래 축제 본부': {
+                            'team': -1,
+                            'latitude': 34.32532,
+                            'longitude': 55.42432,
+                        },
                     },
                     'myTeam': '흰수염고래',
                 }
@@ -144,9 +154,21 @@ WEB_MAP_GET = {
             'examples': {
                 '': {
                     'map': {
-                        '고래 유적지': '범고래팀',
-                        '고래 문화 재단': '돌고래팀',
-                        '고래 축제 본부': '',
+                        '고래 유적지': {
+                            'teamName': '범고래팀',
+                            'latitude': 12.424121,
+                            'longitude': 52.321121,
+                        },
+                        '고래 문화 재단': {
+                            'teamName': '돌고래팀',
+                            'latitude': 44.32532,
+                            'longitude': 33.42432,
+                        },
+                        '고래 축제 본부': {
+                            'teamName': '',
+                            'latitude': 34.32532,
+                            'longitude': 55.42432,
+                        },
                     },
                 }
             }

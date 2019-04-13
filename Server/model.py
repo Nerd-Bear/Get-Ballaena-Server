@@ -34,6 +34,10 @@ class BoothModel(Document):
         default=datetime(2001, 4, 20)
     )
 
+    latitude: float = FloatField()
+
+    longitude: float = FloatField()
+
 
 class ProblemModel(Document):
 
