@@ -124,12 +124,12 @@ MAP_GET = {
                             'latitude': 12.424121,
                             'longitude': 52.321121,
                         },
-                        '고래 문화 재단': {
+                        '고래 광장': {
                             'team': 0,
                             'latitude': 44.32532,
                             'longitude': 33.42432,
                         },
-                        '고래 축제 본부': {
+                        '관리 사무소': {
                             'team': -1,
                             'latitude': 34.32532,
                             'longitude': 55.42432,
@@ -159,12 +159,12 @@ WEB_MAP_GET = {
                             'latitude': 12.424121,
                             'longitude': 52.321121,
                         },
-                        '고래 문화 재단': {
+                        '고래 광장': {
                             'teamName': '돌고래팀',
                             'latitude': 44.32532,
                             'longitude': 33.42432,
                         },
-                        '고래 축제 본부': {
+                        '관리 사무소': {
                             'teamName': '',
                             'latitude': 34.32532,
                             'longitude': 55.42432,
