@@ -1,4 +1,4 @@
-from flask import Flask, request, g
+from flask import Flask, request, g, abort
 from flask_cors import CORS
 from flasgger import Swagger
 
@@ -12,6 +12,8 @@ from model import UserModel
 def set_g_user():
     if 'deviceUUID' in request.headers:
         g.user = UserModel.objects(device_uuid=request.headers['deviceUUID']).first()
+        if g.user is None:
+            return abort(403)
 
 
 def create_app() -> Flask:
