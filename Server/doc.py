@@ -132,6 +132,28 @@ MAP_GET = {
     }
 }
 
+WEB_MAP_GET = {
+    'tags': ['Map'],
+    'description': '웹 현재 맵 상황',
+    'parameters': [],
+    'responses': {
+        '200': {
+            'description': """get 성공
+            빈 스트링: 점령되지 않음
+            """,
+            'examples': {
+                '': {
+                    'map': {
+                        '고래 유적지': '범고래팀',
+                        '고래 문화 재단': '돌고래팀',
+                        '고래 축제 본부': '',
+                    },
+                }
+            }
+        }
+    }
+}
+
 TEAM_GET = {
     'tags': ['Team'],
     'description': '팀별 팀원 리스트',
