@@ -18,7 +18,7 @@ class AdCaptureView(Resource):
         if ad in g.user.always_capture:
             return Response('', 205)
 
-        g.user.always_ad.append(ad)
+        g.user.ad_capture.append(ad)
         g.user.save()
         if len(g.user.ad_capture) == 2:
             model.CouponModel(
