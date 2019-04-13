@@ -55,6 +55,18 @@ class AlwaysBoothModel(Document):
     longitude: float = FloatField()
 
 
+class AdQRModel(Document):
+
+    meta = {
+        "collection": "ad_qr"
+    }
+
+    ad: str = StringField(
+        primary_key=True,
+        required=True
+    )
+
+
 class ProblemModel(Document):
 
     meta = {
