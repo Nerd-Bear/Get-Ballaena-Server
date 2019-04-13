@@ -177,7 +177,7 @@ WEB_MAP_GET = {
 }
 
 ALWAYS_MAP_GET = {
-    'tags': ['Map'],
+    'tags': ['Always'],
     'description': '상시 맵',
     'parameters': [device_uuid],
     'responses': {
@@ -207,6 +207,29 @@ ALWAYS_MAP_GET = {
                     },
                 }
             }
+        }
+    }
+}
+
+ALWAYS_CAPTURE_GET = {
+    'tags': ['Always'],
+    'description': '상시 캡쳐',
+    'parameters': [
+        device_uuid,
+        parameter('boothName', '캡쳐할 부스의 이름')
+    ],
+    'responses': {
+        '200': {
+            'description': '캡쳐 성공'
+        },
+        '201': {
+            'description': '미션 완료'
+        },
+        '204': {
+            'description': '잘못된 부스 이름'
+        },
+        '205': {
+            'description': '이미 캡쳐된 부스임'
         }
     }
 }

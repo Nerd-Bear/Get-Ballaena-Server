@@ -93,3 +93,17 @@ class UserModel(Document):
     team: TeamModel = ReferenceField(
         document_type=TeamModel
     )
+
+    always_capture: List[AlwaysBoothModel] = ListField(
+        ReferenceField(
+            document_type=AlwaysBoothModel,
+        ),
+        default=[],
+    )
+
+    ad_capture: List[AdQRModel] = ListField(
+        ReferenceField(
+            document_type=AdQRModel,
+        ),
+        default=[],
+    )

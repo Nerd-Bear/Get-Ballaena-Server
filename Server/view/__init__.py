@@ -41,5 +41,6 @@ class Router(Util):
         from view.team import TeamView
         self.api.add_resource(TeamView, '/team')
 
-        from view.always import AlwaysMapView
-        self.api.add_resource(AlwaysMapView, '/map/always')
+        from view.always import AlwaysMapView, AlwaysCaptureView
+        self.api.add_resource(AlwaysMapView, '/always/map')
+        self.api.add_resource(AlwaysMapView, '/always')

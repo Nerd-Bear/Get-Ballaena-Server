@@ -2,9 +2,9 @@ from typing import List
 
 from flask_restful import Resource
 from flasgger import swag_from
-from flask import jsonify, g, Response
+from flask import jsonify, g, Response, request
 
-from doc import ALWAYS_MAP_GET
+from doc import ALWAYS_MAP_GET, ALWAYS_CAPTURE_GET
 import model
 
 
@@ -23,3 +23,23 @@ class AlwaysMapView(Resource):
             }
 
         return jsonify(map_)
+
+
+class AlwaysCaptureView(Resource):
+
+    @swag_from(ALWAYS_CAPTURE_GET)
+    def get(self) -> Response:
+        booth_name = request.json['boothName']
+        booth = model.AlwaysBoothModel.objects(booth_name=booth_name).first()
+
+        if booth is None:
+            return Response('', 204)
+        if booth in g.user.always_capture:
+            return Response('', 205)
+
+        g.user.always_capture.append(booth)
+        g.user.save()
+        if len(g.user.always_capture) == len(model.AlwaysBoothModel.objects):
+            return Response('', 201)
+        return Response('', 200)
+
