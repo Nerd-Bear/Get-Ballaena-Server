@@ -39,6 +39,22 @@ class BoothModel(Document):
     longitude: float = FloatField()
 
 
+class AlwaysBoothModel(Document):
+
+    meta = {
+        "collection": "always_booth"
+    }
+
+    booth_name: str = StringField(
+        primary_key=True,
+        required=True
+    )
+
+    latitude: float = FloatField()
+
+    longitude: float = FloatField()
+
+
 class ProblemModel(Document):
 
     meta = {

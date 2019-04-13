@@ -176,6 +176,41 @@ WEB_MAP_GET = {
     }
 }
 
+ALWAYS_MAP_GET = {
+    'tags': ['Map'],
+    'description': '상시 맵',
+    'parameters': [device_uuid],
+    'responses': {
+        '200': {
+            'description': """get 성공
+            true: 캡쳐됨
+            false: 캡쳐 안됨
+            """,
+            'examples': {
+                '': {
+                    'map': {
+                        '고래 유적지': {
+                            'captured': True,
+                            'latitude': 12.424121,
+                            'longitude': 52.321121,
+                        },
+                        '고래 광장': {
+                            'captured': False,
+                            'latitude': 44.32532,
+                            'longitude': 33.42432,
+                        },
+                        '관리 사무소': {
+                            'captured': False,
+                            'latitude': 34.32532,
+                            'longitude': 55.42432,
+                        },
+                    },
+                }
+            }
+        }
+    }
+}
+
 TEAM_GET = {
     'tags': ['Team'],
     'description': '팀별 팀원 리스트',
