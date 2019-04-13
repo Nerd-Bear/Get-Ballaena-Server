@@ -289,3 +289,41 @@ TEAM_POST = {
         },
     }
 }
+
+COUPON_GET = {
+    'tags': ['Coupon'],
+    'description': '쿠폰 리스트',
+    'parameters': [
+        device_uuid
+    ],
+    'responses': {
+        '200': {
+            'description': '쿠폰',
+            'examples': {
+                '': {
+                    'coupons': {
+                        'coupon_id': '뭐 불라불라',
+                        'coupon_name': '상시 이벤트 쿠폰',
+                    }
+                }
+            }
+        }
+    }
+}
+
+COUPON_DELETE = {
+    'tags': ['Coupon'],
+    'description': '쿠폰 사용, 삭제',
+    'parameters': [
+        device_uuid,
+        parameter('coupon_id', '쿠폰 아이디', 'query string')
+    ],
+    'responses': {
+        '200': {
+            'description': '삭제 성공',
+        },
+        '204': {
+            'description': '잘못된 쿠폰아이디 소유하지 않은 쿠폰 아이디',
+        }
+    }
+}

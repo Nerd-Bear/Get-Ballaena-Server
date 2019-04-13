@@ -44,3 +44,6 @@ class Router(Util):
         from view.always import AlwaysMapView, AlwaysCaptureView
         self.api.add_resource(AlwaysMapView, '/always/map')
         self.api.add_resource(AlwaysCaptureView, '/always')
+
+        from view.coupon import CouponView
+        self.api.add_resource(CouponView, '/coupon')
