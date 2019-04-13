@@ -301,10 +301,12 @@ COUPON_GET = {
             'description': '쿠폰',
             'examples': {
                 '': {
-                    'coupons': {
-                        'coupon_id': '뭐 불라불라',
-                        'coupon_name': '상시 이벤트 쿠폰',
-                    }
+                    'coupons': [
+                        {
+                            'coupon_id': '뭐 불라불라',
+                            'coupon_name': '상시 이벤트 쿠폰',
+                        }
+                    ]
                 }
             }
         }
