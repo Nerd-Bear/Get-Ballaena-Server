@@ -14,7 +14,7 @@ class CouponView(Resource):
     @swag_from(COUPON_GET)
     def get(self):
         result = {'coupons': []}
-        coupons: List[model.CouponModel] = model.CouponModel(user=g.user)
+        coupons: List[model.CouponModel] = model.CouponModel.objects(user=g.user)
         for coupon in coupons:
             result['coupons'].append({
                 'coupon_id': str(coupon.id),
