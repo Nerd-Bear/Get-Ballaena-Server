@@ -11,7 +11,7 @@ import model
 class AlwaysMapView(Resource):
 
     @swag_from(ALWAYS_MAP_GET)
-    def post(self) -> Response:
+    def get(self) -> Response:
         map_: dict = {'map': {}}
         booths: List[model.AlwaysBoothModel] = model.AlwaysBoothModel.objects()
 
@@ -28,7 +28,7 @@ class AlwaysMapView(Resource):
 class AlwaysCaptureView(Resource):
 
     @swag_from(ALWAYS_CAPTURE_GET)
-    def get(self) -> Response:
+    def post(self) -> Response:
         booth_name = request.json['boothName']
         booth = model.AlwaysBoothModel.objects(booth_name=booth_name).first()
 
