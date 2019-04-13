@@ -11,7 +11,7 @@ from model import UserModel
 
 def set_g_user():
     if 'deviceUUID' in request.headers:
-        g.user = UserModel.objects(device_uuid=request.headers['deviceUUID'])
+        g.user = UserModel.objects(device_uuid=request.headers['deviceUUID']).first()
 
 
 def create_app() -> Flask:
