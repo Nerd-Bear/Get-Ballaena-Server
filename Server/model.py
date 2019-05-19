@@ -14,6 +14,14 @@ class TeamModel(Document):
         primary_key=True
     )
 
+    @staticmethod
+    def get_team_by_team_name(team_name: str) -> 'TeamModel':
+        return TeamModel.objects(team_name=team_name).first()
+
+    @staticmethod
+    def get_all_teams() -> List['TeamModel']:
+        return TeamModel.objects().all()
+
 
 class BoothModel(Document):
 
@@ -109,6 +117,10 @@ class UserModel(Document):
     @staticmethod
     def get_user_by_name(name: str) -> 'UserModel':
         return UserModel.objects(name=name).first()
+
+    @staticmethod
+    def get_users_by_team(team: TeamModel) -> List['UserModel']:
+        return UserModel.objects(team=team).all()
 
     @staticmethod
     def create(device_uuid: str, name: str):

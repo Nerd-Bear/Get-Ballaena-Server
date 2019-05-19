@@ -42,9 +42,10 @@ def stamp_capture_request(self, *, device_uuid: str='test', stamp_name: str='sta
     )
 
 
-def team_list_request(self) -> Response:
+def team_list_request(self, *, device_uuid: str='test') -> Response:
     return self.client.get(
         '/team',
+        headers={'deviceUUID': device_uuid}
     )
 
 

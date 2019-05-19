@@ -1,9 +1,7 @@
-from typing import List
-
 from flask import jsonify, Response, request, g
 from flask_restful import Resource
 
-import model
+from model import TeamModel, UserModel
 
 
 class TeamView(Resource):
@@ -11,14 +9,11 @@ class TeamView(Resource):
     def get_current_user(self):
         return g.user
 
-    def get_team(self, team_name: str):
-        return model.TeamModel.objects(team_name=team_name).first()
-
     def get(self) -> Response:
-        teams: List[model.TeamModel] = model.TeamModel.objects()
+        teams = TeamModel.get_all_teams()
         result = [{
             'name': team.team_name,
-            'member': [user.name for user in model.UserModel.objects(team=team)],
+            'member': [user.name for user in UserModel.get_users_by_team(team)],
         } for team in teams]
 
         return jsonify(result)
@@ -28,7 +23,7 @@ class TeamView(Resource):
         if current_user.team is not None:
             return Response('', 204)
 
-        team = self.get_team(team_name=request.json.get('teamName'))
+        team = TeamModel.get_team_by_team_name(team_name=request.json.get('teamName'))
         if team is None:
             return Response('', 205)
 

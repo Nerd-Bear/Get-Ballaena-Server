@@ -10,7 +10,7 @@ from model import UserModel
 
 def set_g_user():
     if 'deviceUUID' in request.headers:
-        g.user = UserModel.objects(device_uuid=request.headers['deviceUUID']).first()
+        g.user = UserModel.get_user_by_device_uuid(device_uuid=request.headers['deviceUUID'])
         if g.user is None:
             return abort(403)
 
