@@ -62,6 +62,14 @@ class StampModel(Document):
 
     y: int = IntField()
 
+    @staticmethod
+    def get_all_stamps() -> List['StampModel']:
+        return StampModel.objects().all()
+
+    @staticmethod
+    def get_stamp_by_stamp_name(stamp_name: str):
+        return StampModel.objects(stamp_name=stamp_name).first()
+
 
 class ProblemModel(Document):
 
@@ -126,6 +134,11 @@ class UserModel(Document):
     def create(device_uuid: str, name: str):
         return UserModel(device_uuid=device_uuid, name=name).save()
 
+    @staticmethod
+    def capture_stamp(user: 'UserModel', stamp: StampModel):
+        user.stamps.append(stamp)
+        user.save()
+
 
 class CouponModel(Document):
 
@@ -140,3 +153,7 @@ class CouponModel(Document):
         document_type=UserModel,
         reverse_delete_rule=CASCADE,
     )
+
+    @staticmethod
+    def create(coupon_name: str, user=UserModel):
+        return CouponModel(coupon_name=coupon_name, user=user).save()
