@@ -41,9 +41,9 @@ class Router(Util):
         from view.team import TeamView
         self.api.add_resource(TeamView, '/team')
 
-        from view.always import AlwaysMapView, AlwaysCaptureView
-        self.api.add_resource(AlwaysMapView, '/always/map')
-        self.api.add_resource(AlwaysCaptureView, '/always')
+        from view.stamp import StampCaptureView, StampMapView
+        self.api.add_resource(StampMapView, '/stamp/map')
+        self.api.add_resource(StampCaptureView, '/stamp')
 
         from view.coupon import CouponView
         self.api.add_resource(CouponView, '/coupon')

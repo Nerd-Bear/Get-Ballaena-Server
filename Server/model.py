@@ -39,20 +39,20 @@ class BoothModel(Document):
     longitude: float = FloatField()
 
 
-class AlwaysBoothModel(Document):
+class StampModel(Document):
 
     meta = {
-        "collection": "always_booth"
+        "collection": "stamp"
     }
 
-    booth_name: str = StringField(
+    stamp_name: str = StringField(
         primary_key=True,
         required=True
     )
 
-    latitude: float = FloatField()
+    x: int = IntField()
 
-    longitude: float = FloatField()
+    y: int = IntField()
 
 
 class ProblemModel(Document):
@@ -94,9 +94,9 @@ class UserModel(Document):
         document_type=TeamModel
     )
 
-    always_capture: List[AlwaysBoothModel] = ListField(
+    stamps: List[StampModel] = ListField(
         ReferenceField(
-            document_type=AlwaysBoothModel,
+            document_type=StampModel,
             reverse_delete_rule=CASCADE,
         ),
         default=[],
