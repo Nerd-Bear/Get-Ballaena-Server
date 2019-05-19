@@ -114,14 +114,6 @@ class UserModel(Document):
         default=[],
     )
 
-    ad_capture: List[AdQRModel] = ListField(
-        ReferenceField(
-            document_type=AdQRModel,
-            reverse_delete_rule=CASCADE,
-        ),
-        default=[],
-    )
-
 
 class CouponModel(Document):
 

@@ -16,7 +16,7 @@ def set_g_user():
             return abort(403)
 
 
-def create_app() -> Flask:
+def create_app(*, test=False) -> Flask:
     app: Flask = Flask(__name__)
 
     app.config.from_object(Config)
@@ -24,7 +24,11 @@ def create_app() -> Flask:
     app.before_request(set_g_user)
 
     CORS(app)
-    connect('get-terra')
 
-    Swagger(app, template=app.config['SWAGGER_TEMPLATE'])
+    if test:
+        connect('get-terra')
+    else:
+        connect('get-terra-tests')
+        Swagger(app, template=app.config['SWAGGER_TEMPLATE'])
+
     return app
