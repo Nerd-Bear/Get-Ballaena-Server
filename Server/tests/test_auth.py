@@ -1,8 +1,7 @@
 from unittest import TestCase
+from unittest.mock import MagicMock, patch
 
 from app import create_app
-from model import UserModel
-
 from tests.request import check_status_code, signup_request, signin_request
 
 
@@ -11,24 +10,41 @@ class SignupTest(TestCase):
     def setUp(self):
         self.client = create_app(test=True).test_client()
 
-    def tearDown(self):
-        UserModel.drop_collection()
-
     @check_status_code(201)
-    def test_signup_success(self):
+    @patch('model.UserModel.create', return_value=MagicMock())
+    @patch('model.UserModel.get_user_by_device_uuid', return_value=None)
+    @patch('model.UserModel.get_user_by_name', return_value=None)
+    def test_signup_success(self,
+                            get_user_by_name_mock: MagicMock,
+                            get_user_by_device_uuid_mock: MagicMock,
+                            create_mock: MagicMock):
         res = signup_request(self)
-        self.assertTrue(UserModel.objects(name='test', device_uuid='test').first())
+        get_user_by_name_mock.assert_called_once_with(name='test')
+        get_user_by_device_uuid_mock.assert_called_once_with(device_uuid='test')
+        create_mock.assert_called_once_with(name='test', device_uuid='test')
         return res
 
     @check_status_code(205)
-    def test_exist_name(self):
-        signup_request(self)
-        return signup_request(self, device_uuid='sangmin')
+    @patch('model.UserModel.get_user_by_device_uuid', return_value=None)
+    @patch('model.UserModel.get_user_by_name', return_value=MagicMock())
+    def test_exist_name(self,
+                        get_user_by_name_mock: MagicMock,
+                        get_user_by_device_uuid_mock: MagicMock):
+        res = signup_request(self)
+        get_user_by_name_mock.assert_called_once_with(name='test')
+        get_user_by_device_uuid_mock.assert_called_once_with(device_uuid='test')
+        return res
 
     @check_status_code(205)
-    def test_exist_deviceUUID(self):
-        signup_request(self)
-        return signup_request(self, name='sangmin')
+    @patch('model.UserModel.get_user_by_device_uuid', return_value=MagicMock())
+    @patch('model.UserModel.get_user_by_name', return_value=None)
+    def test_exist_deviceUUID(self,
+                              get_user_by_name_mock: MagicMock,
+                              get_user_by_device_uuid_mock: MagicMock):
+        res = signup_request(self)
+        get_user_by_name_mock.assert_called_once_with(name='test')
+        get_user_by_device_uuid_mock.assert_called_once_with(device_uuid='test')
+        return res
 
 
 class SigninTest(TestCase):
@@ -36,14 +52,18 @@ class SigninTest(TestCase):
     def setUp(self):
         self.client = create_app(test=True).test_client()
 
-    def tearDown(self):
-        UserModel.drop_collection()
-
     @check_status_code(200)
-    def test_success_signin(self):
-        signup_request(self)
-        return signin_request(self)
+    @patch('model.UserModel.get_user_by_device_uuid', return_value=MagicMock())
+    def test_success_signin(self,
+                            get_user_by_device_uuid_mock: MagicMock):
+        res = signin_request(self)
+        get_user_by_device_uuid_mock.assert_called_once_with(device_uuid='test')
+        return res
 
     @check_status_code(204)
-    def test_fail_signin(self):
-        return signin_request(self)
+    @patch('model.UserModel.get_user_by_device_uuid', return_value=None)
+    def test_fail_signin(self,
+                         get_user_by_device_uuid_mock: MagicMock):
+        res = signin_request(self)
+        get_user_by_device_uuid_mock.assert_called_once_with(device_uuid='test')
+        return res

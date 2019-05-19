@@ -102,6 +102,18 @@ class UserModel(Document):
         default=[],
     )
 
+    @staticmethod
+    def get_user_by_device_uuid(device_uuid: str) -> 'UserModel':
+        return UserModel.objects(device_uuid=device_uuid).first()
+
+    @staticmethod
+    def get_user_by_name(name: str) -> 'UserModel':
+        return UserModel.objects(name=name).first()
+
+    @staticmethod
+    def create(device_uuid: str, name: str):
+        return UserModel(device_uuid=device_uuid, name=name).save()
+
 
 class CouponModel(Document):
 
