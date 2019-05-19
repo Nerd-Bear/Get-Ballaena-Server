@@ -44,5 +44,6 @@ class SigninTest(TestCase):
         signup_request(self)
         return signin_reqeust(self)
 
+    @check_status_code(204)
     def test_fail_signin(self):
         return signin_reqeust(self)

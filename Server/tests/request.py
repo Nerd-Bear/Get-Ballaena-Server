@@ -21,7 +21,7 @@ def signup_request(self, *, device_uuid: str='test', name: str='test') -> Respon
     )
 
 
-def signin_reqeust(self, *, device_uuid: str='test') -> Response:
+def signin_request(self, *, device_uuid: str='test') -> Response:
     return self.client.get(
         f'/auth/{device_uuid}',
     )
