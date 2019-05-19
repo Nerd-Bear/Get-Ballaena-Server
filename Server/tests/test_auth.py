@@ -3,7 +3,7 @@ from unittest import TestCase
 from app import create_app
 from model import UserModel
 
-from tests.request import check_status_code, signup_request, signin_reqeust
+from tests.request import check_status_code, signup_request, signin_request
 
 
 class SignupTest(TestCase):
@@ -42,8 +42,8 @@ class SigninTest(TestCase):
     @check_status_code(200)
     def test_success_signin(self):
         signup_request(self)
-        return signin_reqeust(self)
+        return signin_request(self)
 
     @check_status_code(204)
     def test_fail_signin(self):
-        return signin_reqeust(self)
+        return signin_request(self)

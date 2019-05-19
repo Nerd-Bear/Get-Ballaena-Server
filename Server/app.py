@@ -25,8 +25,8 @@ def create_app(*, test=False) -> Flask:
     CORS(app)
 
     if test:
-        connect('get-terra')
+        connect('get-terra-test')
     else:
-        connect('get-terra-tests')
+        connect('get-terra')
 
     return app

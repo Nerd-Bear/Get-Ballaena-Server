@@ -29,14 +29,28 @@ def signin_request(self, *, device_uuid: str='test') -> Response:
 
 def stamp_map_request(self, *, device_uuid: str='test') -> Response:
     return self.client.get(
-        f'/stamp/map',
+        '/stamp/map',
         headers={'deviceUUID': device_uuid},
     )
 
 
 def stamp_capture_request(self, *, device_uuid: str='test', stamp_name: str='stamp 0') -> Response:
     return self.client.post(
-        f'/stamp',
+        '/stamp',
         headers={'deviceUUID': device_uuid},
         json={'stampName': stamp_name},
+    )
+
+
+def team_list_request(self) -> Response:
+    return self.client.get(
+        '/team',
+    )
+
+
+def team_join_request(self, *, device_uuid: str='test', team_name='team 0') -> Response:
+    return self.client.post(
+        '/team',
+        headers={'deviceUUID': device_uuid},
+        json={'teamName': team_name},
     )
