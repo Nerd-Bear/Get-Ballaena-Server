@@ -1,16 +1,13 @@
 from typing import List
 
 from flask_restful import Resource
-from flasgger import swag_from
 from flask import jsonify, g, Response, request
 
-from doc import ALWAYS_MAP_GET, ALWAYS_CAPTURE_GET
 import model
 
 
 class AlwaysMapView(Resource):
 
-    @swag_from(ALWAYS_MAP_GET)
     def get(self) -> Response:
         map_: dict = {'map': {}}
         booths: List[model.AlwaysBoothModel] = model.AlwaysBoothModel.objects()
@@ -27,7 +24,6 @@ class AlwaysMapView(Resource):
 
 class AlwaysCaptureView(Resource):
 
-    @swag_from(ALWAYS_CAPTURE_GET)
     def post(self) -> Response:
         booth_name = request.json['boothName']
         booth = model.AlwaysBoothModel.objects(booth_name=booth_name).first()

@@ -1,6 +1,5 @@
 from flask import Flask, request, g, abort
 from flask_cors import CORS
-from flasgger import Swagger
 
 from mongoengine import connect
 
@@ -29,6 +28,5 @@ def create_app(*, test=False) -> Flask:
         connect('get-terra')
     else:
         connect('get-terra-tests')
-        Swagger(app, template=app.config['SWAGGER_TEMPLATE'])
 
     return app

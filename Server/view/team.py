@@ -1,16 +1,13 @@
 from typing import List
 
 from flask_restful import Resource
-from flasgger import swag_from
 from flask import jsonify, Response, request, g
 
-from doc import TEAM_GET, TEAM_POST
 import model
 
 
 class TeamView(Resource):
 
-    @swag_from(TEAM_GET)
     def get(self) -> Response:
         teams: List[model.TeamModel] = model.TeamModel.objects()
         result = {}
@@ -21,7 +18,6 @@ class TeamView(Resource):
 
         return jsonify(result)
 
-    @swag_from(TEAM_POST)
     def post(self) -> Response:
         if g.user.team is not None:
             return Response('', 204)
