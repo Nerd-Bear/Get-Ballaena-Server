@@ -40,7 +40,6 @@ class StampCaptureView(Resource):
     def post(self) -> Response:
         user = self.get_current_user()
         stamp = StampModel.get_stamp_by_stamp_name(request.json['stampName'])
-        print(stamp)
         if stamp is None:
             return Response('', 204)
         if user.is_captured_stamp(stamp=stamp):

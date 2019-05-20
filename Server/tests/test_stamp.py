@@ -10,10 +10,14 @@ def create_stamp_list_mock():
     return [MagicMock(stamp_name=f'stamp {i}', x=i, y=i) for i in range(20)]
 
 
-def create_user_mock(*, captured_all: bool=False):
+def create_user_mock(*, captured_stamp: bool=False, captured_all: bool=False, captured_half: bool=False):
     user = MagicMock()
     user.stamps = []
-    user.is_captured_stamp = MagicMock(side_effect=is_captured_stamp_side_effect)
+
+    if captured_half:
+        user.is_captured_stamp.side_effect = is_captured_stamp_side_effect
+    else:
+        user.is_captured_stamp = MagicMock(return_value=captured_stamp)
 
     user.is_captured_all_stamps = MagicMock(return_value=captured_all)
 
@@ -29,7 +33,7 @@ class StampMapTest(TestCase):
     def setUp(self):
         self.client = create_app(test=True).test_client()
 
-    @patch('view.stamp.StampMapView.get_current_user', return_value=create_user_mock())
+    @patch('view.stamp.StampMapView.get_current_user', return_value=create_user_mock(captured_half=True))
     @patch('model.StampModel.get_all_stamps', return_value=create_stamp_list_mock())
     @check_status_code(200)
     def test_success(self,
@@ -51,43 +55,66 @@ class StampMapTest(TestCase):
             self.assertDictEqual(expect, stamp)
         return res
 
-    @check_status_code(403)
-    def test_wrong_deviceUUID(self):
-        return stamp_map_request(self, device_uuid='wrong')
-
 
 class StampCaptureTest(TestCase):
 
     def setUp(self):
         self.client = create_app(test=True).test_client()
-        signup_request(self)
 
-        for i in range(20):
-            StampModel(stamp_name=f'stamp {i}', x=i, y=i).save()
-
-    def tearDown(self):
-        StampModel.drop_collection()
-        UserModel.drop_collection()
-
+    @patch('view.stamp.StampCaptureView.get_current_user', return_value=create_user_mock())
+    @patch('model.StampModel.get_stamp_by_stamp_name', return_Value=MagicMock())
     @check_status_code(200)
-    def test_success(self):
-        return stamp_capture_request(self)
+    def test_success(self,
+                     get_stamp_by_stamp_name_mock: MagicMock,
+                     get_current_user_mock: MagicMock):
+        res = stamp_capture_request(self)
 
+        get_current_user_mock.assert_called_once_with()
+        get_stamp_by_stamp_name_mock.assert_called_once_with('stamp 0')
+
+        return res
+
+    @patch('view.stamp.StampCaptureView.get_current_user', return_value=create_user_mock(captured_stamp=True))
+    @patch('model.StampModel.get_stamp_by_stamp_name', return_Value=MagicMock())
     @check_status_code(205)
-    def test_already_captured(self):
-        stamp_capture_request(self)
-        return stamp_capture_request(self)
+    def test_already_captured(self,
+                              get_stamp_by_stamp_name_mock: MagicMock,
+                              get_current_user_mock: MagicMock):
+        res = stamp_capture_request(self)
 
+        get_current_user_mock.assert_called_once_with()
+        get_stamp_by_stamp_name_mock.assert_called_once_with('stamp 0')
+
+        return res
+
+    @patch('view.stamp.StampCaptureView.get_current_user', return_value=create_user_mock())
+    @patch('model.StampModel.get_stamp_by_stamp_name', return_value=None)
     @check_status_code(204)
-    def test_bad_booth_name(self):
-        return stamp_capture_request(self, stamp_name='wrong')
+    def test_bad_booth_name(self,
+                            get_stamp_by_stamp_name_mock: MagicMock,
+                            get_current_user_mock: MagicMock):
+        res = stamp_capture_request(self)
 
+        get_current_user_mock.assert_called_once_with()
+        get_stamp_by_stamp_name_mock.assert_called_once_with('stamp 0')
+
+        return res
+
+    @patch('view.stamp.StampCaptureView.get_current_user', return_value=create_user_mock(captured_all=True))
+    @patch('model.StampModel.get_stamp_by_stamp_name', return_value=MagicMock())
+    @patch('model.CouponModel.create', return_value=MagicMock())
     @check_status_code(201)
-    def test_create_stamp_coupon(self):
-        for i in range(19):
-            stamp_capture_request(self, stamp_name=f'stamp {i}')
-        res = stamp_capture_request(self, stamp_name=f'stamp 19')
+    def test_create_stamp_coupon(self,
+                                 coupon_model_create_mock: MagicMock,
+                                 get_stamp_by_stamp_name_mock: MagicMock,
+                                 get_current_user_mock: MagicMock):
+        res = stamp_capture_request(self)
 
-        user: UserModel = UserModel.objects(name='test').first()
-        self.assertTrue(CouponModel.objects(user=user, coupon_name='스탬프 이벤트 쿠폰').first())
+        get_current_user_mock.assert_called_once_with()
+        get_stamp_by_stamp_name_mock.assert_called_once_with('stamp 0')
+        coupon_model_create_mock.assert_called_once_with(
+            coupon_name='스탬프 이벤트 쿠폰',
+            user=get_current_user_mock.return_value
+        )
+
         return res
