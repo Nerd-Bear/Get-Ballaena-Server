@@ -2,8 +2,7 @@ from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
 from app import create_app
-from model import StampModel, UserModel, CouponModel
-from tests.request import check_status_code, signup_request, stamp_map_request, stamp_capture_request
+from tests.request import check_status_code, stamp_map_request, stamp_capture_request
 
 
 def create_stamp_list_mock():

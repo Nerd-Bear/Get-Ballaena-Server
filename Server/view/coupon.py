@@ -1,8 +1,8 @@
-from bson import ObjectId
 from typing import List
 
-from flask_restful import Resource
+from bson import ObjectId
 from flask import jsonify, g, Response, request
+from flask_restful import Resource
 
 import model
 

@@ -1,5 +1,5 @@
-from flask_restful import Resource
 from flask import jsonify, Response, request, abort
+from flask_restful import Resource
 
 from model import StampModel, CouponModel, UserModel
 
@@ -53,4 +53,3 @@ class StampCaptureView(Resource):
             )
             return Response('', 201)
         return Response('', 200)
-

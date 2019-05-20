@@ -1,4 +1,4 @@
-from flask import jsonify, Response, request, g, abort
+from flask import jsonify, Response, request, abort
 from flask_restful import Resource
 
 from model import TeamModel, UserModel

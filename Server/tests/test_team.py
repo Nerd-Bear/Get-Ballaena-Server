@@ -1,8 +1,8 @@
 from unittest import TestCase
 from unittest.mock import MagicMock, patch, call
 
-from tests.request import check_status_code, team_list_request, team_join_request
 from app import create_app
+from tests.request import check_status_code, team_list_request, team_join_request
 
 
 def create_team_list_mock():

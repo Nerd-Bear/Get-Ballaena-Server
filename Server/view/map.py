@@ -1,7 +1,7 @@
 from typing import List
 
-from flask_restful import Resource
 from flask import jsonify, g, Response
+from flask_restful import Resource
 
 import model
 

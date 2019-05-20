@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_cors import CORS
-
 from mongoengine import connect
 
 from config import Config

@@ -1,11 +1,10 @@
-from typing import List
 from datetime import datetime
+from typing import List
 
 from mongoengine import *
 
 
 class TeamModel(Document):
-
     meta = {
         'collection': 'team'
     }
@@ -24,7 +23,6 @@ class TeamModel(Document):
 
 
 class BoothModel(Document):
-
     meta = {
         "collection": "booth"
     }
@@ -48,7 +46,6 @@ class BoothModel(Document):
 
 
 class StampModel(Document):
-
     meta = {
         "collection": "stamp"
     }
@@ -72,7 +69,6 @@ class StampModel(Document):
 
 
 class ProblemModel(Document):
-
     meta = {
         'collection': 'problem'
     }
@@ -93,7 +89,6 @@ class ProblemModel(Document):
 
 
 class UserModel(Document):
-
     meta = {
         'collection': 'user'
     }
@@ -146,7 +141,6 @@ class UserModel(Document):
 
 
 class CouponModel(Document):
-
     meta = {
         'collection': 'coupon'
     }
