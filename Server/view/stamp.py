@@ -1,21 +1,26 @@
-from typing import List
-
 from flask_restful import Resource
-from flask import jsonify, g, Response, request
+from flask import jsonify, Response, request, abort
 
-import model
+from model import StampModel, CouponModel, UserModel
 
 
 class StampMapView(Resource):
 
-    def get(self) -> Response:
-        map_: list = []
-        stamps: List[model.StampModel] = model.StampModel.objects()
+    @staticmethod
+    def get_current_user():
+        user = UserModel.get_user_by_device_uuid(device_uuid=request.headers['deviceUUID'])
+        if user is None:
+            return abort(403)
+        return user
 
+    def get(self) -> Response:
+        user = self.get_current_user()
+        map_: list = []
+        stamps = StampModel.get_all_stamps()
         for stamp in stamps:
             map_.append({
                 'name': stamp.stamp_name,
-                'is_captured': stamp in g.user.stamps,
+                'is_captured': user.is_captured_stamp(stamp=stamp),
                 'x': stamp.x,
                 'y': stamp.y,
             })
@@ -25,22 +30,28 @@ class StampMapView(Resource):
 
 class StampCaptureView(Resource):
 
-    def post(self) -> Response:
-        stamp_name = request.json['stampName']
-        stamp = model.StampModel.objects(stamp_name=stamp_name).first()
+    @staticmethod
+    def get_current_user():
+        user = UserModel.get_user_by_device_uuid(device_uuid=request.headers['deviceUUID'])
+        if user is None:
+            return abort(403)
+        return user
 
+    def post(self) -> Response:
+        user = self.get_current_user()
+        stamp = StampModel.get_stamp_by_stamp_name(request.json['stampName'])
+        print(stamp)
         if stamp is None:
             return Response('', 204)
-        if stamp in g.user.stamps:
+        if user.is_captured_stamp(stamp=stamp):
             return Response('', 205)
 
-        g.user.stamps.append(stamp)
-        g.user.save()
-        if len(g.user.stamps) == len(model.StampModel.objects):
-            model.CouponModel(
+        user.capture_stamp(stamp=stamp)
+        if user.is_captured_all_stamps():
+            CouponModel.create(
                 coupon_name='스탬프 이벤트 쿠폰',
-                user=g.user,
-            ).save()
+                user=user,
+            )
             return Response('', 201)
         return Response('', 200)
 

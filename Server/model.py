@@ -134,10 +134,15 @@ class UserModel(Document):
     def create(device_uuid: str, name: str):
         return UserModel(device_uuid=device_uuid, name=name).save()
 
-    @staticmethod
-    def capture_stamp(user: 'UserModel', stamp: StampModel):
-        user.stamps.append(stamp)
-        user.save()
+    def capture_stamp(self, stamp: StampModel):
+        self.stamps.append(stamp)
+        return self.save()
+
+    def is_captured_stamp(self, stamp: StampModel):
+        return stamp in self.stamps
+
+    def is_captured_all_stamps(self):
+        return len(self.stamps) == len(StampModel.get_all_stamps())
 
 
 class CouponModel(Document):

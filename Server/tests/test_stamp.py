@@ -1,34 +1,45 @@
 from unittest import TestCase
+from unittest.mock import MagicMock, patch
 
 from app import create_app
 from model import StampModel, UserModel, CouponModel
 from tests.request import check_status_code, signup_request, stamp_map_request, stamp_capture_request
 
 
+def create_stamp_list_mock():
+    return [MagicMock(stamp_name=f'stamp {i}', x=i, y=i) for i in range(20)]
+
+
+def create_user_mock(*, captured_all: bool=False):
+    user = MagicMock()
+    user.stamps = []
+    user.is_captured_stamp = MagicMock(side_effect=is_captured_stamp_side_effect)
+
+    user.is_captured_all_stamps = MagicMock(return_value=captured_all)
+
+    return user
+
+
+def is_captured_stamp_side_effect(stamp: MagicMock):
+    return stamp.x < 10
+
+
 class StampMapTest(TestCase):
 
     def setUp(self):
         self.client = create_app(test=True).test_client()
-        signup_request(self)
 
-        user: UserModel = UserModel.objects(name='test').first()
-
-        for i in range(10):
-            stamp = StampModel(stamp_name=f'stamp {i}', x=i, y=i).save()
-            user.stamps.append(stamp)
-        user.save()
-
-        for i in range(10, 20):
-            StampModel(stamp_name=f'stamp {i}', x=i, y=i).save()
-
-    def tearDown(self):
-        StampModel.drop_collection()
-        UserModel.drop_collection()
-
+    @patch('view.stamp.StampMapView.get_current_user', return_value=create_user_mock())
+    @patch('model.StampModel.get_all_stamps', return_value=create_stamp_list_mock())
     @check_status_code(200)
-    def test_success(self):
+    def test_success(self,
+                     get_all_stamps_mock: MagicMock,
+                     get_current_user_mock: MagicMock):
         res = stamp_map_request(self)
         map_ = sorted(res.json, key=lambda x: x['x'])
+
+        get_current_user_mock.assert_called_once_with()
+        get_all_stamps_mock.assert_called_once_with()
 
         for i, stamp in enumerate(map_):
             expect = {
