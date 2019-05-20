@@ -55,3 +55,17 @@ def team_join_request(self, *, device_uuid: str='test', team_name='team 0') -> R
         headers={'deviceUUID': device_uuid},
         json={'teamName': team_name},
     )
+
+
+def coupon_list_request(self, *, device_uuid: str='test') -> Response:
+    return self.client.get(
+        '/coupon',
+        headers={'deviceUUID': device_uuid},
+    )
+
+
+def coupon_delete_request(self, *, device_uuid: str='test', coupon_id: str='5ce23b5083b01a99ce56c996') -> Response:
+    return self.client.delete(
+        f'/coupon?coupon_id={coupon_id}',
+        headers={'deviceUUID': device_uuid}
+    )

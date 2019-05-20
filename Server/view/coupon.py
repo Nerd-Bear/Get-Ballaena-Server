@@ -1,27 +1,37 @@
-from typing import List
-
 from bson import ObjectId
-from flask import jsonify, g, Response, request
+from flask import jsonify, g, Response, request, abort
 from flask_restful import Resource
 
-import model
+from model import CouponModel, UserModel
 
 
 class CouponView(Resource):
 
+    @staticmethod
+    def get_current_user():
+        user = UserModel.get_user_by_device_uuid(device_uuid=request.headers['deviceUUID'])
+        if user is None:
+            return abort(403)
+        return user
+
+    @staticmethod
+    def get_coupon_id():
+        try:
+            return ObjectId(request.args.get('coupon_id'))
+        except:
+            abort(400)
+
     def get(self):
-        result = {'coupons': []}
-        coupons: List[model.CouponModel] = model.CouponModel.objects(user=g.user)
-        for coupon in coupons:
-            result['coupons'].append({
-                'coupon_id': str(coupon.id),
-                'coupon_name': coupon.coupon_name
-            })
+        user = self.get_current_user()
+        coupons = CouponModel.get_coupons_by_user(user=user)
+
+        result = [{'coupon_id': str(coupon.id), 'coupon_name': coupon.coupon_name}for coupon in coupons or []]
         return jsonify(result)
 
     def delete(self):
-        coupon_id = ObjectId(request.args.get('coupon_id'))
-        coupon = model.CouponModel.objects(coupon_id=coupon_id, user=g.user).first()
+        user = self.get_current_user()
+        coupon_id = self.get_coupon_id()
+        coupon = CouponModel.get_coupon_by_coupon_id_and_user(coupon_id, user)
         if coupon is None:
             return Response('', 204)
 

@@ -5,7 +5,7 @@ from app import create_app
 from tests.request import check_status_code, stamp_map_request, stamp_capture_request
 
 
-def create_stamp_list_mock():
+def create_stamp_mock_list():
     return [MagicMock(stamp_name=f'stamp {i}', x=i, y=i) for i in range(20)]
 
 
@@ -33,7 +33,7 @@ class StampMapTest(TestCase):
         self.client = create_app(test=True).test_client()
 
     @patch('view.stamp.StampMapView.get_current_user', return_value=create_user_mock(captured_half=True))
-    @patch('model.StampModel.get_all_stamps', return_value=create_stamp_list_mock())
+    @patch('model.StampModel.get_all_stamps', return_value=create_stamp_mock_list())
     @check_status_code(200)
     def test_success(self,
                      get_all_stamps_mock: MagicMock,
