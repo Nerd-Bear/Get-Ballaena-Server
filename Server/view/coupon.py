@@ -1,18 +1,11 @@
 from bson import ObjectId
-from flask import jsonify, g, Response, request, abort
-from flask_restful import Resource
+from flask import jsonify, Response, request, abort
 
-from model import CouponModel, UserModel
+from view import BaseResource
+from model import CouponModel
 
 
-class CouponView(Resource):
-
-    @staticmethod
-    def get_current_user():
-        user = UserModel.get_user_by_device_uuid(device_uuid=request.headers['deviceUUID'])
-        if user is None:
-            return abort(403)
-        return user
+class CouponView(BaseResource):
 
     @staticmethod
     def get_coupon_id():

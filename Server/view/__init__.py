@@ -1,33 +1,25 @@
-import os
-import threading
-import time
+from flask import Flask, abort, request
+from flask_restful import Api, Resource
 
-from flask import request, Flask
-from flask_restful import Api
+from model import UserModel
 
 
-class Util:
+class BaseResource(Resource):
 
-    def reload_server(self):
-        time.sleep(2)
-
-        os.system('. ../hook.sh')
-
-    def webhook_event_handler(self):
-        if request.headers['X-GitHub-Event'] == 'push':
-            threading.Thread(target=self.reload_server).start()
-
-        return 'hello'
+    @staticmethod
+    def get_current_user():
+        user = UserModel.get_user_by_device_uuid(device_uuid=request.headers['deviceUUID'])
+        if user is None:
+            return abort(403)
+        return user
 
 
-class Router(Util):
+class Router:
     def __init__(self, app: Flask):
         self.app = app
         self.api = Api(app)
 
     def register(self):
-        self.app.add_url_rule('/hook', view_func=self.webhook_event_handler, methods=['POST'])
-
         from view.auth import AuthView
         self.api.add_resource(AuthView, '/auth/<deviceUUID>')
 

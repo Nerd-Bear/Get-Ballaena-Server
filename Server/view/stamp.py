@@ -1,17 +1,10 @@
-from flask import jsonify, Response, request, abort
-from flask_restful import Resource
+from flask import jsonify, Response, request
 
-from model import StampModel, CouponModel, UserModel
+from view import BaseResource
+from model import StampModel, CouponModel
 
 
-class StampMapView(Resource):
-
-    @staticmethod
-    def get_current_user():
-        user = UserModel.get_user_by_device_uuid(device_uuid=request.headers['deviceUUID'])
-        if user is None:
-            return abort(403)
-        return user
+class StampMapView(BaseResource):
 
     def get(self) -> Response:
         user = self.get_current_user()
@@ -28,14 +21,7 @@ class StampMapView(Resource):
         return jsonify(map_)
 
 
-class StampCaptureView(Resource):
-
-    @staticmethod
-    def get_current_user():
-        user = UserModel.get_user_by_device_uuid(device_uuid=request.headers['deviceUUID'])
-        if user is None:
-            return abort(403)
-        return user
+class StampCaptureView(BaseResource):
 
     def post(self) -> Response:
         user = self.get_current_user()

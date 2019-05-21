@@ -1,17 +1,10 @@
-from flask import jsonify, Response, request, abort
-from flask_restful import Resource
+from flask import jsonify, Response, request
 
+from view import BaseResource
 from model import TeamModel, UserModel
 
 
-class TeamView(Resource):
-
-    @staticmethod
-    def get_current_user():
-        user = UserModel.get_user_by_device_uuid(device_uuid=request.headers['deviceUUID'])
-        if user is None:
-            return abort(403)
-        return user
+class TeamView(BaseResource):
 
     def get(self) -> Response:
         teams = TeamModel.get_all_teams()
