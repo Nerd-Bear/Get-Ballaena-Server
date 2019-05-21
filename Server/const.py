@@ -1,0 +1,7 @@
+import os
+
+STAFF_CODE = os.getenv('STAFF_CODE', '20190607')
+
+TEAM_COUNT = 3
+
+MAX_TEAM_MEMBER_COUNT = 10

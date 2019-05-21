@@ -4,6 +4,8 @@ from flask import jsonify, Response, request, abort
 from view import BaseResource
 from model import CouponModel
 
+from const import STAFF_CODE
+
 
 class CouponView(BaseResource):
 
@@ -27,6 +29,9 @@ class CouponView(BaseResource):
         coupon = CouponModel.get_coupon_by_coupon_id_and_user(coupon_id, user)
         if coupon is None:
             return Response('', 204)
+
+        if request.json.get('staffCode') != STAFF_CODE:
+            return Response('', 400)
 
         coupon.delete()
         return Response('', 200)
