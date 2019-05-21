@@ -1,8 +1,11 @@
 from bson import ObjectId
 from datetime import datetime
 from typing import List
+from uuid import uuid4
 
 from mongoengine import *
+
+from const import TEAM_COUNT, MAX_TEAM_MEMBER_COUNT
 
 
 class TeamModel(Document):
@@ -165,3 +168,41 @@ class CouponModel(Document):
     @staticmethod
     def get_coupon_by_coupon_id_and_user(coupon_id: ObjectId, user: UserModel) -> 'CouponModel':
         return CouponModel.objects(coupon_id=coupon_id, user=user).first()
+
+
+def create_join_code():
+    while True:
+        t = str(uuid4())[:4]
+        if not JoinCodeModel.get_join_code_by_code(t):
+            return t
+
+
+class JoinCodeModel(Document):
+    meta = {
+        'collection': 'join_code'
+    }
+
+    code = StringField(
+        primary_key=True,
+        default=create_join_code,
+    )
+
+    team = ReferenceField(
+        TeamModel,
+        required=True,
+    )
+
+    @staticmethod
+    def get_join_code_by_code(code: str) -> 'JoinCodeModel':
+        return JoinCodeModel.objects(code=code).first()
+
+    @staticmethod
+    def create(team: TeamModel) -> 'JoinCodeModel':
+        return JoinCodeModel(team=team).save()
+
+    @staticmethod
+    def initialize():
+        JoinCodeModel.drop_collection()
+        for team in TeamModel.get_all_teams():
+            for i in range(MAX_TEAM_MEMBER_COUNT):
+                JoinCodeModel.create(team=team)

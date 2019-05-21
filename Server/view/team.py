@@ -1,7 +1,7 @@
 from flask import jsonify, Response, request
 
 from view import BaseResource
-from model import TeamModel, UserModel
+from model import TeamModel, UserModel, JoinCodeModel
 
 
 class TeamView(BaseResource):
@@ -20,11 +20,12 @@ class TeamView(BaseResource):
         if user.team is not None:
             return Response('', 204)
 
-        team = TeamModel.get_team_by_team_name(team_name=request.json.get('teamName'))
-        if team is None:
+        join_code = JoinCodeModel.get_join_code_by_code(code=request.json.get('joinCode'))
+        if join_code is None:
             return Response('', 205)
 
-        user.team = team
+        user.team = join_code.team
         user.save()
+        join_code.delete()
 
         return Response('', 201)

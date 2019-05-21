@@ -50,47 +50,47 @@ class TeamJoinTest(TestCase):
         self.client = create_app(test=True).test_client()
 
     @patch('view.team.TeamView.get_current_user', return_value=MagicMock(team=None))
-    @patch('model.TeamModel.get_team_by_team_name', return_value=MagicMock())
+    @patch('model.JoinCodeModel.get_join_code_by_code', return_value=MagicMock())
     @check_status_code(201)
     def test_success(self,
-                     get_team_by_team_name_mock: MagicMock,
+                     get_join_code_by_code_mock: MagicMock,
                      get_current_user_mock: MagicMock):
         res = team_join_request(self)
 
         get_current_user_mock.assert_called_once()
-        get_team_by_team_name_mock.assert_called_with(team_name='team 0')
+        get_join_code_by_code_mock.assert_called_once_with(code='join')
 
         self.assertEqual(
             get_current_user_mock.return_value.team,
-            get_team_by_team_name_mock.return_value
+            get_join_code_by_code_mock.return_value.team
         )
 
         return res
 
     @patch('view.team.TeamView.get_current_user', return_value=MagicMock(team='team'))
-    @patch('model.TeamModel.get_team_by_team_name', return_value=MagicMock())
+    @patch('model.JoinCodeModel.get_join_code_by_code', return_value=MagicMock())
     @check_status_code(204)
     def test_already_joined_team(self,
-                                 get_team_by_team_name_mock: MagicMock,
+                                 get_join_code_by_code_mock: MagicMock,
                                  get_current_user_mock: MagicMock):
         res = team_join_request(self)
 
         get_current_user_mock.assert_called_once()
-        get_team_by_team_name_mock.assert_not_called()
+        get_join_code_by_code_mock.assert_not_called()
 
         self.assertEqual(get_current_user_mock.return_value.team, 'team')
         return res
 
     @patch('view.team.TeamView.get_current_user', return_value=MagicMock(team=None))
-    @patch('model.TeamModel.get_team_by_team_name', return_value=None)
+    @patch('model.JoinCodeModel.get_join_code_by_code', return_value=None)
     @check_status_code(205)
     def test_wrong_team(self,
-                        get_team_by_team_name_mock: MagicMock,
+                        get_join_code_by_code_mock: MagicMock,
                         get_current_user_mock: MagicMock):
         res = team_join_request(self)
 
         get_current_user_mock.assert_called_once()
-        get_team_by_team_name_mock.assert_called_with(team_name='team 0')
+        get_join_code_by_code_mock.assert_called_with(code='join')
 
         self.assertEqual(get_current_user_mock.return_value.team, None)
         return res

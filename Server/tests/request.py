@@ -49,11 +49,11 @@ def team_list_request(self, *, device_uuid: str='test') -> Response:
     )
 
 
-def team_join_request(self, *, device_uuid: str='test', team_name='team 0') -> Response:
+def team_join_request(self, *, device_uuid: str='test', join_code='join') -> Response:
     return self.client.post(
         '/team',
         headers={'deviceUUID': device_uuid},
-        json={'teamName': team_name},
+        json={'joinCode': join_code},
     )
 
 
