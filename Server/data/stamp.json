@@ -1,0 +1,17 @@
+[
+  {
+    "stamp_name": "stamp 0",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "stamp_name": "stamp 1",
+    "x": 20,
+    "y": 30
+  },
+  {
+    "stamp_name": "stamp 2",
+    "x": 40,
+    "y": 40
+  }
+]

@@ -1,11 +1,12 @@
 from bson import ObjectId
 from datetime import datetime
+import json
 from typing import List
 from uuid import uuid4
 
 from mongoengine import *
 
-from const import TEAM_COUNT, MAX_TEAM_MEMBER_COUNT
+from const import TEAM_NAMES, TEAM_COUNT, MAX_TEAM_MEMBER_COUNT
 
 
 class TeamModel(Document):
@@ -25,28 +26,60 @@ class TeamModel(Document):
     def get_all_teams() -> List['TeamModel']:
         return TeamModel.objects().all()
 
+    @staticmethod
+    def create(team_name: str):
+        TeamModel(team_name=team_name).save()
+
+    @staticmethod
+    def initialize():
+        TeamModel.drop_collection()
+        for team_name in TEAM_NAMES[TEAM_COUNT]:
+            TeamModel.create(team_name=team_name)
+
 
 class BoothModel(Document):
     meta = {
-        "collection": "booth"
+        "collection": "booth",
     }
 
     booth_name: str = StringField(
         primary_key=True,
-        required=True
+        required=True,
     )
 
     own_team: TeamModel = ReferenceField(
-        document_type=TeamModel
+        document_type=TeamModel,
     )
 
     next_capture_time: datetime = DateTimeField(
-        default=datetime(2001, 4, 20)
+        default=datetime(2001, 4, 20),
     )
 
-    latitude: float = FloatField()
+    x: int = IntField(
+        required=True,
+    )
 
-    longitude: float = FloatField()
+    y: int = IntField(
+        required=True,
+    )
+
+    @staticmethod
+    def create(booth_name: str, x: int, y: int):
+        return BoothModel(booth_name=booth_name, x=x, y=y).save()
+
+    @staticmethod
+    def load_data():
+        with open('data/booth.json') as f:
+            booth_data = json.load(f)
+        return booth_data
+
+    @staticmethod
+    def initialize():
+        BoothModel.drop_collection()
+        booth_data = BoothModel.load_data()
+
+        for booth in booth_data:
+            BoothModel.create(**booth)
 
 
 class StampModel(Document):
@@ -56,12 +89,16 @@ class StampModel(Document):
 
     stamp_name: str = StringField(
         primary_key=True,
-        required=True
+        required=True,
     )
 
-    x: int = IntField()
+    x: int = IntField(
+        required=True,
+    )
 
-    y: int = IntField()
+    y: int = IntField(
+        required=True,
+    )
 
     @staticmethod
     def get_all_stamps() -> List['StampModel']:
@@ -70,6 +107,24 @@ class StampModel(Document):
     @staticmethod
     def get_stamp_by_stamp_name(stamp_name: str):
         return StampModel.objects(stamp_name=stamp_name).first()
+
+    @staticmethod
+    def create(stamp_name: str, x: int, y: int):
+        return StampModel(stamp_name=stamp_name, x=x, y=y).save()
+
+    @staticmethod
+    def load_data():
+        with open('data/stamp.json') as f:
+            stamp_data = json.load(f)
+        return stamp_data
+
+    @staticmethod
+    def initialize():
+        StampModel.drop_collection()
+        stamp_data = StampModel.load_data()
+
+        for stamp in stamp_data:
+            StampModel.create(**stamp)
 
 
 class ProblemModel(Document):
@@ -90,6 +145,24 @@ class ProblemModel(Document):
             required=True
         )
     )
+
+    @staticmethod
+    def create(content: str, answer: str, choices: List[str]):
+        return ProblemModel(content=content, answer=answer, choices=choices).save()
+
+    @staticmethod
+    def load_data():
+        with open('data/problem.json') as f:
+            problem_data = json.load(f)
+        return problem_data
+
+    @staticmethod
+    def initialize():
+        ProblemModel.drop_collection()
+        problem_data = ProblemModel.load_data()
+
+        for problem in problem_data:
+            ProblemModel.create(**problem)
 
 
 class UserModel(Document):
@@ -118,6 +191,10 @@ class UserModel(Document):
     )
 
     @staticmethod
+    def get_all_users() -> QuerySet:
+        return UserModel.objects().all()
+
+    @staticmethod
     def get_user_by_device_uuid(device_uuid: str) -> 'UserModel':
         return UserModel.objects(device_uuid=device_uuid).first()
 
@@ -132,6 +209,11 @@ class UserModel(Document):
     @staticmethod
     def create(device_uuid: str, name: str):
         return UserModel(device_uuid=device_uuid, name=name).save()
+
+    @staticmethod
+    def initialize():
+        users = UserModel.get_all_users()
+        users.update(unset__team=1)
 
     def capture_stamp(self, stamp: StampModel):
         self.stamps.append(stamp)

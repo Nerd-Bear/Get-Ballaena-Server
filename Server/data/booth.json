@@ -1,0 +1,17 @@
+[
+  {
+    "booth_name": "booth 0",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "booth_name": "booth 1",
+    "x": 20,
+    "y": 30
+  },
+  {
+    "booth_name": "booth 2",
+    "x": 40,
+    "y": 40
+  }
+]
