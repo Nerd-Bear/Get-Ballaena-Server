@@ -7,7 +7,7 @@ ADMIN_CODE = os.getenv('ADMIN_CODE', 'nerd-bear')
 TEAM_NAMES = (
     '밍크고래팀',
     '혹등고래팀',
-    '대왕고래,',
+    '대왕고래팀',
     '향유고래팀',
 )
 TEAM_COUNT = 3

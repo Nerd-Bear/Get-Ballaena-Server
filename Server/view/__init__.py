@@ -1,9 +1,9 @@
 from datetime import datetime, timedelta
 
-from flask import Flask, abort, request, current_app
+from flask import Flask, abort, request, current_app, Response
 from flask_restful import Api, Resource
 
-from const import ADMIN_CODE, TIME_CHECK
+from const import ADMIN_CODE
 import model
 
 
@@ -32,7 +32,7 @@ class Router:
         from view.coupon import CouponView
         self.api.add_resource(CouponView, '/coupon')
 
-        self.app.add_url_rule('/admin/initialize', 'initialize', initialize)
+        self.app.add_url_rule('/admin/initialize', 'initialize', view_func=initialize, methods=['POST'])
 
 
 def get_all_models():
@@ -40,9 +40,6 @@ def get_all_models():
 
 
 def initialize():
-    if request.method != 'post':
-        abort(405)
-
     admin_code = request.json.get('adminCode')
     if admin_code != ADMIN_CODE:
         return abort(403)
@@ -50,6 +47,8 @@ def initialize():
     models = get_all_models()
     for m in models:
         m.initialize()
+
+    return Response('', 201)
 
 
 class BaseResource(Resource):

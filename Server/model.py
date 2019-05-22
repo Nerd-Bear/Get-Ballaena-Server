@@ -33,7 +33,7 @@ class TeamModel(Document):
     @staticmethod
     def initialize():
         TeamModel.drop_collection()
-        for team_name in TEAM_NAMES[TEAM_COUNT]:
+        for team_name in TEAM_NAMES[:TEAM_COUNT]:
             TeamModel.create(team_name=team_name)
 
 
