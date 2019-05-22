@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 
 
@@ -6,3 +7,6 @@ class Config:
 
     JWT_SECRET_KEY = os.getenv('SECRET_KEY', 'nerd-bear')
     SECRET_KEY = os.getenv('SECRET_KEY', 'nerd-bear')
+
+    START_TIME = datetime(2020, 4, 20, 12, 00)
+    END_TIME = datetime(2020, 4, 20, 12, 30)

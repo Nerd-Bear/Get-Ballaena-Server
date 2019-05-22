@@ -12,9 +12,15 @@ class MapView(BaseResource):
         return user.team.team_name
 
     def get(self) -> Response:
-        map_ = {'map': [], 'myTeam': self.get_team_name()}
-        booths = BoothModel.get_all_booths()
+        self.check_time()
 
+        map_ = {
+            'map': [],
+            'myTeam': self.get_team_name(),
+            'leftTime': self.get_left_time(),
+        }
+
+        booths = BoothModel.get_all_booths()
         for booth in booths:
             map_['map'].append({
                 'booth_name': booth.booth_name,

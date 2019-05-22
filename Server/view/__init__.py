@@ -1,7 +1,9 @@
-from flask import Flask, abort, request
+from datetime import datetime, timedelta
+
+from flask import Flask, abort, request, current_app
 from flask_restful import Api, Resource
 
-from const import ADMIN_CODE
+from const import ADMIN_CODE, TIME_CHECK
 import model
 
 
@@ -51,6 +53,32 @@ def initialize():
 
 
 class BaseResource(Resource):
+
+    @staticmethod
+    def get_kst_now():
+        return datetime.utcnow() + timedelta(hours=9)
+
+    @staticmethod
+    def get_start_time() -> datetime:
+        return current_app.config['START_TIME']
+
+    @staticmethod
+    def get_end_time() -> datetime:
+        return current_app.config['END_TIME']
+
+    def check_time(self):
+        start_time = self.get_start_time()
+        now = self.get_kst_now()
+        end_time = self.get_end_time()
+
+        if now < start_time:
+            abort(406)
+        elif end_time < now:
+            abort(408)
+
+    def get_left_time(self):
+        left_time: datetime = self.get_end_time() - self.get_kst_now()
+        return f'{left_time.minute}:{left_time.second}'
 
     @staticmethod
     def get_current_user():

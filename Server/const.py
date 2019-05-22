@@ -1,3 +1,4 @@
+from enum import Enum
 import os
 
 STAFF_CODE = os.getenv('STAFF_CODE', '20190607')
@@ -11,3 +12,9 @@ TEAM_NAMES = (
 )
 TEAM_COUNT = 3
 MAX_TEAM_MEMBER_COUNT = 10
+
+
+class TIME_CHECK(Enum):
+    BEFORE_START = 0
+    DURING_TIME = 1
+    AFTER_END = 2
