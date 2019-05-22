@@ -1,43 +1,26 @@
-from typing import List
+from flask import jsonify, Response
 
-from flask import jsonify, g, Response
-from flask_restful import Resource
-
-import model
+from model import BoothModel
+from view import BaseResource
 
 
-class MapView(Resource):
+class MapView(BaseResource):
+
+    @staticmethod
+    def get_team_name():
+        user = MapView.get_current_user()
+        return user.team.team_name
 
     def get(self) -> Response:
-        map_: dict = {'map': {}, 'myTeam': g.user.team.team_name}
-        booths: List[model.BoothModel] = model.BoothModel.objects()
+        map_ = {'map': [], 'myTeam': self.get_team_name()}
+        booths = BoothModel.get_all_booths()
 
         for booth in booths:
-            if booth.own_team is None:
-                value = -1
-            elif booth.own_team == g.user.team:
-                value = 1
-            else:
-                value = 0
-            map_['map'][booth.booth_name] = {
-                'team': value,
-                'latitude': booth.latitude,
-                'longitude': booth.longitude,
-            }
-
-        return jsonify(map_)
-
-
-class WebMapView(Resource):
-
-    def get(self) -> Resource:
-        booths: List[model.BoothModel] = model.BoothModel.objects()
-        map_ = {'map': {}}
-        for booth in booths:
-            map_['map'][booth.booth_name] = {
-                'teamName': '' if booth.own_team is None else booth.own_team.team_name,
-                'latitude': booth.latitude,
-                'longitude': booth.longitude,
-            }
+            map_['map'].append({
+                'booth_name': booth.booth_name,
+                'own_team': booth.own_team or '',
+                'x': booth.x,
+                'y': booth.y,
+            })
 
         return jsonify(map_)

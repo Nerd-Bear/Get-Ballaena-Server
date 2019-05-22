@@ -64,6 +64,10 @@ class BoothModel(Document):
     )
 
     @staticmethod
+    def get_all_booths() -> List['BoothModel']:
+        return BoothModel.objects().all()
+
+    @staticmethod
     def create(booth_name: str, x: int, y: int):
         return BoothModel(booth_name=booth_name, x=x, y=y).save()
 

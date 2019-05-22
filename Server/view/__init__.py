@@ -14,9 +14,8 @@ class Router:
         from view.auth import AuthView
         self.api.add_resource(AuthView, '/auth/<deviceUUID>')
 
-        from view.map import MapView, WebMapView
+        from view.map import MapView
         self.api.add_resource(MapView, '/map')
-        self.api.add_resource(WebMapView, '/map/web')
 
         from view.solve import SolveView
         self.api.add_resource(SolveView, '/solve/<boothName>')
