@@ -24,7 +24,7 @@ class MapView(BaseResource):
         for booth in booths:
             map_['map'].append({
                 'booth_name': booth.booth_name,
-                'own_team': booth.own_team.team_name or '',
+                'own_team': (booth.own_team and booth.own_team.team_name) or '',
                 'x': booth.x,
                 'y': booth.y,
             })

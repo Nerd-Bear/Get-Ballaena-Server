@@ -77,7 +77,9 @@ class BaseResource(Resource):
 
     def get_left_time(self):
         left_time = self.get_end_time() - self.get_kst_now()
-        return f'{left_time.min}:{left_time.seconds}'
+        minutes = left_time.seconds // 60
+        seconds = left_time.seconds % 60
+        return f'{minutes}:{seconds}'
 
     @staticmethod
     def get_current_user():
