@@ -251,6 +251,10 @@ class CouponModel(Document):
     def get_coupon_by_coupon_id_and_user(coupon_id: ObjectId, user: UserModel) -> 'CouponModel':
         return CouponModel.objects(coupon_id=coupon_id, user=user).first()
 
+    @staticmethod
+    def initialize():
+        pass
+
 
 def create_join_code():
     while True:

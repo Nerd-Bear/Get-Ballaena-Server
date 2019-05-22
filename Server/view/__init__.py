@@ -1,17 +1,8 @@
 from flask import Flask, abort, request
 from flask_restful import Api, Resource
 
-from model import UserModel
-
-
-class BaseResource(Resource):
-
-    @staticmethod
-    def get_current_user():
-        user = UserModel.get_user_by_device_uuid(device_uuid=request.headers['deviceUUID'])
-        if user is None:
-            return abort(403)
-        return user
+from const import ADMIN_CODE
+import model
 
 
 class Router:
@@ -39,3 +30,32 @@ class Router:
 
         from view.coupon import CouponView
         self.api.add_resource(CouponView, '/coupon')
+
+        self.app.add_url_rule('/admin/initialize', 'initialize', initialize)
+
+
+def get_all_models():
+    return [getattr(model, m) for m in dir(model) if m.endswith('Model')]
+
+
+def initialize():
+    if request.method != 'post':
+        abort(405)
+
+    admin_code = request.json.get('adminCode')
+    if admin_code != ADMIN_CODE:
+        return abort(403)
+
+    models = get_all_models()
+    for m in models:
+        m.initialize()
+
+
+class BaseResource(Resource):
+
+    @staticmethod
+    def get_current_user():
+        user = model.UserModel.get_user_by_device_uuid(device_uuid=request.headers['deviceUUID'])
+        if user is None:
+            return abort(403)
+        return user
