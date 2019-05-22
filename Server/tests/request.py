@@ -73,3 +73,10 @@ def coupon_delete_request(self, *,
         headers={'deviceUUID': device_uuid},
         json={'staffCode': staff_code},
     )
+
+
+def map_request(self, *, device_uuid: str='test'):
+    return self.client.get(
+        '/map',
+        headers={'deviceUUID': device_uuid},
+    )

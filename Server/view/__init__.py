@@ -76,8 +76,8 @@ class BaseResource(Resource):
             abort(408)
 
     def get_left_time(self):
-        left_time: datetime = self.get_end_time() - self.get_kst_now()
-        return f'{left_time.minute}:{left_time.second}'
+        left_time = self.get_end_time() - self.get_kst_now()
+        return f'{left_time.min}:{left_time.seconds}'
 
     @staticmethod
     def get_current_user():
