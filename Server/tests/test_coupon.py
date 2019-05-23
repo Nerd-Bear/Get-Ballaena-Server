@@ -1,6 +1,7 @@
-from bson import ObjectId
 from unittest import TestCase
 from unittest.mock import MagicMock, patch
+
+from bson import ObjectId
 
 from app import create_app
 from tests.request import check_status_code, coupon_list_request, coupon_delete_request
@@ -40,8 +41,8 @@ class TestCouponList(TestCase):
     @patch('model.CouponModel.get_coupons_by_user', return_value=None)
     @check_status_code(200)
     def test_empty(self,
-                     get_coupons_by_user_mock: MagicMock,
-                     get_current_user_mock: MagicMock):
+                   get_coupons_by_user_mock: MagicMock,
+                   get_current_user_mock: MagicMock):
         res = coupon_list_request(self)
 
         get_current_user_mock.assert_called_once_with()

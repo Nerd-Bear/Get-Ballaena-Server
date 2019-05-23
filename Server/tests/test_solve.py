@@ -52,10 +52,10 @@ class SolveGetTest(TestCase):
                                                                            choices=['1', '2', '3', '4']))
     @check_status_code(204)
     def test_wrong_booth_name(self,
-                     get_random_problem_mock: MagicMock,
-                     is_in_delay_mock: MagicMock,
-                     is_booth_captured_by_user_team_mock: MagicMock,
-                     get_both_by_booth_name: MagicMock):
+                              get_random_problem_mock: MagicMock,
+                              is_in_delay_mock: MagicMock,
+                              is_booth_captured_by_user_team_mock: MagicMock,
+                              get_both_by_booth_name: MagicMock):
         res = solve_get_request(self)
 
         get_both_by_booth_name.assert_called_once_with(booth_name='test')
@@ -218,7 +218,7 @@ class SolvePostTest(TestCase):
     @patch('view.solve.SolveView.get_current_user', return_value=MagicMock())
     @check_status_code(409)
     def test_in_delay(self,
-                      get_current_user_mock:  MagicMock,
+                      get_current_user_mock: MagicMock,
                       get_left_delay_mock: MagicMock,
                       is_in_delay_mock: MagicMock,
                       get_booth_by_booth_name_mock: MagicMock,

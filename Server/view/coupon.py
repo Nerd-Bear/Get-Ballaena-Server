@@ -1,10 +1,9 @@
 from bson import ObjectId
 from flask import jsonify, Response, request, abort
 
-from view import BaseResource
-from model import CouponModel
-
 from const import STAFF_CODE
+from model import CouponModel
+from view import BaseResource
 
 
 class CouponView(BaseResource):
@@ -19,7 +18,7 @@ class CouponView(BaseResource):
     def get(self):
         user = self.get_current_user()
         coupons = CouponModel.get_coupons_by_user(user=user)
-        result = [{'coupon_id': str(coupon.id), 'coupon_name': coupon.coupon_name}for coupon in coupons or []]
+        result = [{'coupon_id': str(coupon.id), 'coupon_name': coupon.coupon_name} for coupon in coupons or []]
         return jsonify(result)
 
     def delete(self):

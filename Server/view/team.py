@@ -1,7 +1,7 @@
 from flask import jsonify, Response, request
 
-from view import BaseResource
 from model import TeamModel, UserModel, JoinCodeModel
+from view import BaseResource
 
 
 class TeamView(BaseResource):

@@ -1,5 +1,5 @@
-from enum import Enum
 import os
+from enum import Enum
 
 STAFF_CODE = os.getenv('STAFF_CODE', '20190607')
 ADMIN_CODE = os.getenv('ADMIN_CODE', 'nerd-bear')

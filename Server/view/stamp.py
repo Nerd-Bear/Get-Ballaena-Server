@@ -1,7 +1,7 @@
 from flask import jsonify, Response, request
 
-from view import BaseResource
 from model import StampModel, CouponModel
+from view import BaseResource
 
 
 class StampMapView(BaseResource):

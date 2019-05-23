@@ -3,8 +3,8 @@ from datetime import datetime, timedelta
 from flask import Flask, abort, request, current_app, Response
 from flask_restful import Api, Resource
 
-from const import ADMIN_CODE
 import model
+from const import ADMIN_CODE
 
 
 class Router:

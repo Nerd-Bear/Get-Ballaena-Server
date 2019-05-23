@@ -1,6 +1,4 @@
-from datetime import datetime, timedelta
-
-from flask import Response, jsonify, abort, request, g, make_response
+from flask import Response, jsonify, request, make_response
 
 from model import BoothModel, ProblemModel
 from view import BaseResource
