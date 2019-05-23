@@ -27,13 +27,13 @@ class SolveView(BaseResource):
         if not booth:
             return Response('', 204)
 
-        if self.is_booth_captured_by_user_team(booth):
+        if self.is_booth_captured_by_user_team(booth=booth):
             return Response('', 205)
 
-        if self.is_in_delay(booth):
+        if self.is_in_delay(booth=booth):
             return make_response(
                 jsonify({
-                    'delayTime': self.get_left_delay(booth)
+                    'delayTime': self.get_left_delay(booth=booth)
                 }), 409
             )
 

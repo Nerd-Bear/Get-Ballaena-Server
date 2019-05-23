@@ -14,27 +14,33 @@ def check_status_code(status_code):
     return decorator
 
 
-def signup_request(self, *, device_uuid: str='test', name: str='test') -> Response:
+def signup_request(self, *,
+                   device_uuid: str='test',
+                   name: str='test') -> Response:
     return self.client.post(
         f'/auth/{device_uuid}',
         json={'name': name},
     )
 
 
-def signin_request(self, *, device_uuid: str='test') -> Response:
+def signin_request(self, *,
+                   device_uuid: str='test') -> Response:
     return self.client.get(
         f'/auth/{device_uuid}',
     )
 
 
-def stamp_map_request(self, *, device_uuid: str='test') -> Response:
+def stamp_map_request(self, *,
+                      device_uuid: str='test') -> Response:
     return self.client.get(
         '/stamp/map',
         headers={'deviceUUID': device_uuid},
     )
 
 
-def stamp_capture_request(self, *, device_uuid: str='test', stamp_name: str='stamp 0') -> Response:
+def stamp_capture_request(self, *,
+                          device_uuid: str='test',
+                          stamp_name: str='stamp 0') -> Response:
     return self.client.post(
         '/stamp',
         headers={'deviceUUID': device_uuid},
@@ -42,14 +48,17 @@ def stamp_capture_request(self, *, device_uuid: str='test', stamp_name: str='sta
     )
 
 
-def team_list_request(self, *, device_uuid: str='test') -> Response:
+def team_list_request(self, *,
+                      device_uuid: str='test') -> Response:
     return self.client.get(
         '/team',
         headers={'deviceUUID': device_uuid}
     )
 
 
-def team_join_request(self, *, device_uuid: str='test', join_code='join') -> Response:
+def team_join_request(self, *,
+                      device_uuid: str='test',
+                      join_code='join') -> Response:
     return self.client.post(
         '/team',
         headers={'deviceUUID': device_uuid},
@@ -57,7 +66,8 @@ def team_join_request(self, *, device_uuid: str='test', join_code='join') -> Res
     )
 
 
-def coupon_list_request(self, *, device_uuid: str='test') -> Response:
+def coupon_list_request(self, *,
+                        device_uuid: str='test') -> Response:
     return self.client.get(
         '/coupon',
         headers={'deviceUUID': device_uuid},
@@ -79,4 +89,25 @@ def map_request(self, *, device_uuid: str='test'):
     return self.client.get(
         '/map',
         headers={'deviceUUID': device_uuid},
+    )
+
+
+def solve_get_request(self, *,
+                      device_uuid: str='test',
+                      booth_name: str='test'):
+    return self.client.get(
+        f'/solve/{booth_name}',
+        headers={'deviceUUID': device_uuid},
+    )
+
+
+def solve_post_request(self, *,
+                       device_uuid: str='test',
+                       booth_name: str='test',
+                       problem_id: str='test',
+                       answer: str='test'):
+    return self.client.post(
+        f'/solve/{booth_name}',
+        headers={'deviceUUID': device_uuid},
+        json={'problemId': problem_id, 'answer': answer},
     )
