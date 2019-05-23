@@ -76,10 +76,13 @@ class BoothModel(Document):
     def create(booth_name: str, x: int, y: int) -> 'BoothModel':
         return BoothModel(booth_name=booth_name, x=x, y=y).save()
 
+    def set_delay(self, minutes: int):
+        self.next_capture_time = datetime.now() + timedelta(minutes=minutes)
+        self.save()
+
     def capture(self, user: 'UserModel'):
         self.own_team = user.team
-        self.next_capture_time = datetime.now() + timedelta(minutes=2)
-        self.save()
+        self.set_delay(minutes=2)
 
     @staticmethod
     def load_data():

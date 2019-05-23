@@ -50,22 +50,22 @@ class SolveView(BaseResource):
 
         payload: dict = request.json
 
-        problem = ProblemModel.get_problem_by_id(payload['problemId'])
-        booth = BoothModel.get_booth_by_booth_name(boothName)
+        problem = ProblemModel.get_problem_by_id(id=payload['problemId'])
+        booth = BoothModel.get_booth_by_booth_name(booth_name=boothName)
         if not all((problem, booth)):
             return Response('', 204)
 
-        if self.is_in_delay(booth):
+        if self.is_in_delay(booth=booth):
             return make_response(
                 jsonify({
-                    'delayTime': self.get_left_delay(booth)
+                    'delayTime': self.get_left_delay(booth=booth)
                 }), 409
             )
 
         if payload['answer'] != problem.answer:
-            booth.next_capture_time = datetime.now() + timedelta(minutes=1)
+            booth.set_delay(minutes=1)
             return Response('', 205)
 
-        booth.capture(self.get_current_user())
+        booth.capture(user=self.get_current_user())
 
         return Response('', 201)
