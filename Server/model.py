@@ -1,6 +1,7 @@
 from bson import ObjectId
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
+import random
 from typing import List
 from uuid import uuid4
 
@@ -68,8 +69,17 @@ class BoothModel(Document):
         return BoothModel.objects().all()
 
     @staticmethod
-    def create(booth_name: str, x: int, y: int):
+    def get_booth_by_booth_name(booth_name: str) -> 'BoothModel':
+        return BoothModel.objects(booth_name=booth_name).first()
+
+    @staticmethod
+    def create(booth_name: str, x: int, y: int) -> 'BoothModel':
         return BoothModel(booth_name=booth_name, x=x, y=y).save()
+
+    def capture(self, user: 'UserModel'):
+        self.own_team = user.team
+        self.next_capture_time = datetime.now() + timedelta(minutes=2)
+        self.save()
 
     @staticmethod
     def load_data():
@@ -149,6 +159,18 @@ class ProblemModel(Document):
             required=True
         )
     )
+
+    @staticmethod
+    def get_all_problems() -> List['ProblemModel']:
+        return ProblemModel.objects().all()
+
+    @staticmethod
+    def get_problem_by_id(id: str) -> 'ProblemModel':
+        return ProblemModel.objects(id=ObjectId(id)).first()
+
+    @staticmethod
+    def get_random_problem() -> 'ProblemModel':
+        return random.choice(ProblemModel.get_all_problems())
 
     @staticmethod
     def create(content: str, answer: str, choices: List[str]):

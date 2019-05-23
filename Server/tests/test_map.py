@@ -6,7 +6,7 @@ from tests.request import map_request, check_status_code
 
 
 def create_booth_mock_list():
-    return [MagicMock(booth_name=f'booth {i}', own_team=f'team {i}', x=i, y=i) for i in range(10)]
+    return [MagicMock(booth_name=f'booth {i}', own_team=MagicMock(team_name=f'team {i}'), x=i, y=i) for i in range(10)]
 
 
 class MapTest(TestCase):
@@ -24,6 +24,10 @@ class MapTest(TestCase):
                      get_left_time_mock: MagicMock,
                      get_team_name_mock: MagicMock):
         res = map_request(self)
+
+        get_team_name_mock.assert_called_once_with()
+        get_left_time_mock.assert_called_once_with()
+        get_all_booths_mock.assert_called_once_with()
 
         self.assertDictEqual({
             'map': [dict(booth_name=f'booth {i}', own_team=f'team {i}', x=i, y=i) for i in range(10)],
