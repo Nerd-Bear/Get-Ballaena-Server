@@ -97,8 +97,8 @@ class TestCouponRedemption(TestCase):
 
     @patch('view.coupon.CouponView.get_current_user', return_value=MagicMock())
     @patch('view.coupon.CouponView.get_coupon_id', return_value=ObjectId())
-    @patch('model.CouponModel.get_coupon_by_coupon_id_and_user', return_value=None)
-    @check_status_code(204)
+    @patch('model.CouponModel.get_coupon_by_coupon_id_and_user', return_value=MagicMock())
+    @check_status_code(403)
     def test_wrong_staff_code(self,
                               get_coupon_by_coupon_id_and_user_mock: MagicMock,
                               get_coupon_id_mock: MagicMock,

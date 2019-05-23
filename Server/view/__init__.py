@@ -33,6 +33,7 @@ class Router:
         self.api.add_resource(CouponView, '/coupon')
 
         self.app.add_url_rule('/admin/initialize', 'initialize', view_func=initialize, methods=['POST'])
+        self.app.add_url_rule('/admin/start', 'start_game', view_func=start_game, methods=['POST'])
 
 
 def get_all_models():
@@ -47,6 +48,16 @@ def initialize():
     models = get_all_models()
     for m in models:
         m.initialize()
+
+    return Response('', 201)
+
+
+def start_game():
+    admin_code = request.json.get('adminCode')
+    if admin_code != ADMIN_CODE:
+        return abort(403)
+    current_app.config['START_TIME'] = BaseResource.get_kst_now()
+    current_app.config['END_TIME'] = BaseResource.get_kst_now() + timedelta(minutes=30)
 
     return Response('', 201)
 
@@ -83,7 +94,7 @@ class BaseResource(Resource):
 
     @staticmethod
     def get_current_user():
-        user = model.UserModel.get_user_by_device_uuid(device_uuid=request.headers['deviceUUID'])
+        user = model.UserModel.get_user_by_device_uuid(device_uuid=request.headers.get('deviceUUID'))
         if user is None:
             return abort(403)
         return user

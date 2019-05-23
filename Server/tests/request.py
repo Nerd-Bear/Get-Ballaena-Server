@@ -79,9 +79,12 @@ def coupon_delete_request(self, *,
                           coupon_id: str='5ce23b5083b01a99ce56c996',
                           staff_code: str='20190607') -> Response:
     return self.client.delete(
-        f'/coupon?coupon_id={coupon_id}',
+        f'/coupon',
         headers={'deviceUUID': device_uuid},
-        json={'staffCode': staff_code},
+        json={
+            'staffCode': staff_code,
+            'couponId': coupon_id,
+        },
     )
 
 

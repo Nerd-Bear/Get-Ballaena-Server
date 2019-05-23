@@ -274,11 +274,11 @@ class CouponModel(Document):
 
     @staticmethod
     def get_coupons_by_user(user: UserModel) -> List['CouponModel']:
-        return CouponModel.objects(uset=user).all()
+        return CouponModel.objects(user=user).all()
 
     @staticmethod
     def get_coupon_by_coupon_id_and_user(coupon_id: ObjectId, user: UserModel) -> 'CouponModel':
-        return CouponModel.objects(coupon_id=coupon_id, user=user).first()
+        return CouponModel.objects(id=coupon_id, user=user).first()
 
     @staticmethod
     def initialize():

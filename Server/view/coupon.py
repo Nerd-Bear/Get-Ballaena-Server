@@ -12,14 +12,13 @@ class CouponView(BaseResource):
     @staticmethod
     def get_coupon_id():
         try:
-            return ObjectId(request.args.get('coupon_id'))
+            return ObjectId(request.json.get('couponId'))
         except:
             abort(400)
 
     def get(self):
         user = self.get_current_user()
         coupons = CouponModel.get_coupons_by_user(user=user)
-
         result = [{'coupon_id': str(coupon.id), 'coupon_name': coupon.coupon_name}for coupon in coupons or []]
         return jsonify(result)
 
@@ -31,7 +30,7 @@ class CouponView(BaseResource):
             return Response('', 204)
 
         if request.json.get('staffCode') != STAFF_CODE:
-            return Response('', 400)
+            abort(403)
 
         coupon.delete()
         return Response('', 200)
