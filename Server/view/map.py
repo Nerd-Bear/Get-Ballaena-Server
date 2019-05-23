@@ -30,3 +30,25 @@ class MapView(BaseResource):
             })
 
         return jsonify(map_)
+
+
+class WebMapView(BaseResource):
+
+    def get(self) -> Response:
+        self.check_time()
+
+        map_ = {
+            'map': [],
+            'leftTime': self.get_left_time(),
+        }
+
+        booths = BoothModel.get_all_booths()
+        for booth in booths:
+            map_['map'].append({
+                'booth_name': booth.booth_name,
+                'own_team': (booth.own_team and booth.own_team.team_name) or '',
+                'x': booth.x,
+                'y': booth.y,
+            })
+
+        return jsonify(map_)
