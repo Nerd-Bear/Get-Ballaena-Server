@@ -1,4 +1,4 @@
-from flask import Response, jsonify, request, make_response
+from flask import Response, jsonify, request, make_response, abort
 
 from model import BoothModel, ProblemModel
 from view import BaseResource
@@ -45,10 +45,14 @@ class SolveView(BaseResource):
         return jsonify(response)
 
     def post(self, boothName: str) -> Response:
+        self.check_time()
 
         payload: dict = request.json
-
-        problem = ProblemModel.get_problem_by_id(id=payload['problemId'])
+        problem = ''
+        try:
+            problem = ProblemModel.get_problem_by_id(id=payload['problemId'])
+        except:
+            abort(400)
         booth = BoothModel.get_booth_by_booth_name(booth_name=boothName)
         if not all((problem, booth)):
             return Response('', 204)
