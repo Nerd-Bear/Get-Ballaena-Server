@@ -122,6 +122,7 @@ class SolvePostTest(TestCase):
     def setUp(self):
         self.client = create_app(test=True).test_client()
 
+    @patch('view.solve.SolveView.check_time', MagicMock())
     @patch('model.ProblemModel.get_problem_by_id', return_value=MagicMock(answer='test'))
     @patch('model.BoothModel.get_booth_by_booth_name', return_value=MagicMock())
     @patch('view.solve.SolveView.is_in_delay', return_value=False)
@@ -147,6 +148,7 @@ class SolvePostTest(TestCase):
 
         return res
 
+    @patch('view.solve.SolveView.check_time', MagicMock())
     @patch('model.ProblemModel.get_problem_by_id', return_value=None)
     @patch('model.BoothModel.get_booth_by_booth_name', return_value=MagicMock())
     @patch('view.solve.SolveView.is_in_delay', return_value=False)
@@ -168,6 +170,7 @@ class SolvePostTest(TestCase):
 
         return res
 
+    @patch('view.solve.SolveView.check_time', MagicMock())
     @patch('model.ProblemModel.get_problem_by_id', return_value=MagicMock())
     @patch('model.BoothModel.get_booth_by_booth_name', return_value=None)
     @patch('view.solve.SolveView.is_in_delay', return_value=False)
@@ -187,6 +190,7 @@ class SolvePostTest(TestCase):
 
         return res
 
+    @patch('view.solve.SolveView.check_time', MagicMock())
     @patch('model.ProblemModel.get_problem_by_id', return_value=MagicMock(answer='wrong'))
     @patch('model.BoothModel.get_booth_by_booth_name', return_value=MagicMock())
     @patch('view.solve.SolveView.is_in_delay', return_value=False)
@@ -211,6 +215,7 @@ class SolvePostTest(TestCase):
 
         return res
 
+    @patch('view.solve.SolveView.check_time', MagicMock())
     @patch('model.ProblemModel.get_problem_by_id', return_value=MagicMock(answer='test'))
     @patch('model.BoothModel.get_booth_by_booth_name', return_value=MagicMock())
     @patch('view.solve.SolveView.is_in_delay', return_value=True)
