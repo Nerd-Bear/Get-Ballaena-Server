@@ -23,8 +23,9 @@ class Router:
         from view.solve import SolveView
         self.api.add_resource(SolveView, '/solve/<boothName>')
 
-        from view.team import TeamView
+        from view.team import TeamView, TeamCheckView
         self.api.add_resource(TeamView, '/team')
+        self.api.add_resource(TeamCheckView, '/team/check')
 
         from view.stamp import StampCaptureView, StampMapView
         self.api.add_resource(StampMapView, '/stamp/map')

@@ -29,3 +29,13 @@ class TeamView(BaseResource):
         join_code.delete()
 
         return Response('', 201)
+
+
+class TeamCheckView(BaseResource):
+    def get(self) -> Response:
+        user = self.get_current_user()
+
+        if not user.team:
+            return Response('', 404)
+
+        return jsonify({'team': user.team.team_name})
