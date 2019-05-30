@@ -1,16 +1,19 @@
 [
   {
     "booth_name": "booth 0",
+    "location": "종현이의 마음 속",
     "x": 0,
     "y": 0
   },
   {
     "booth_name": "booth 1",
+    "location": "태영아 입!",
     "x": 20,
     "y": 30
   },
   {
     "booth_name": "booth 2",
+    "location": "외로운 나의 마음... :^(",
     "x": 40,
     "y": 40
   }

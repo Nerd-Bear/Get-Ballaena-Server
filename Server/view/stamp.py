@@ -14,6 +14,7 @@ class StampMapView(BaseResource):
             map_.append({
                 'name': stamp.stamp_name,
                 'is_captured': user.is_captured_stamp(stamp=stamp),
+                'location': stamp.location,
                 'x': stamp.x,
                 'y': stamp.y,
             })

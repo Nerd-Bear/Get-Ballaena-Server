@@ -1,16 +1,19 @@
 [
   {
     "stamp_name": "stamp 0",
+    "location": "태영이의 마음 속",
     "x": 0,
     "y": 0
   },
   {
     "stamp_name": "stamp 1",
+    "location": "우진이의 마음 속",
     "x": 20,
     "y": 30
   },
   {
     "stamp_name": "stamp 2",
+    "location": "원준이의 귓 속",
     "x": 40,
     "y": 40
   }

@@ -56,6 +56,10 @@ class BoothModel(Document):
         default=datetime(2001, 4, 20),
     )
 
+    location: str = StringField(
+        required=True,
+    )
+
     x: int = IntField(
         required=True,
     )
@@ -73,8 +77,8 @@ class BoothModel(Document):
         return BoothModel.objects(booth_name=booth_name).first()
 
     @staticmethod
-    def create(booth_name: str, x: int, y: int) -> 'BoothModel':
-        return BoothModel(booth_name=booth_name, x=x, y=y).save()
+    def create(booth_name: str, location: str, x: int, y: int) -> 'BoothModel':
+        return BoothModel(booth_name=booth_name, location=location, x=x, y=y).save()
 
     def set_delay(self, minutes: int):
         self.next_capture_time = datetime.now() + timedelta(minutes=minutes)
@@ -109,6 +113,10 @@ class StampModel(Document):
         required=True,
     )
 
+    location: str = StringField(
+        required=True,
+    )
+
     x: int = IntField(
         required=True,
     )
@@ -126,8 +134,8 @@ class StampModel(Document):
         return StampModel.objects(stamp_name=stamp_name).first()
 
     @staticmethod
-    def create(stamp_name: str, x: int, y: int):
-        return StampModel(stamp_name=stamp_name, x=x, y=y).save()
+    def create(stamp_name: str, location: str, x: int, y: int):
+        return StampModel(stamp_name=stamp_name, location=location, x=x, y=y).save()
 
     @staticmethod
     def load_data():
