@@ -7,18 +7,17 @@ from view import BaseResource
 class MapView(BaseResource):
 
     @staticmethod
-    def get_team_name():
+    def get_team_name() -> str:
         user = MapView.get_current_user()
         if not user.team:
             abort(403)
         return user.team.team_name
 
     def get(self) -> Response:
-        self.check_time()
-
+        team_name = self.get_team_name()
         map_ = {
             'map': [],
-            'myTeam': self.get_team_name(),
+            'myTeam': team_name,
             'leftTime': self.get_left_time(),
         }
 
