@@ -18,7 +18,7 @@ class MapView(BaseResource):
         map_ = {
             'map': [],
             'myTeam': team_name,
-            'leftTime': self.get_left_time(),
+            'endTimeTimestamp': self.get_end_time_timestamp(),
         }
 
         booths = BoothModel.get_all_booths()
@@ -41,7 +41,7 @@ class WebMapView(BaseResource):
 
         map_ = {
             'map': [],
-            'leftTime': self.get_left_time(),
+            'endTimeTimestamp': self.get_end_time_timestamp(),
         }
 
         booths = BoothModel.get_all_booths()
