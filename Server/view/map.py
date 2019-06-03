@@ -15,6 +15,8 @@ class MapView(BaseResource):
 
     def get(self) -> Response:
         team_name = self.get_team_name()
+        self.check_time()
+
         map_ = {
             'map': [],
             'myTeam': team_name,
