@@ -50,6 +50,9 @@ class TeamStatus:
 
 
 def give_coupon_to_winners():
+    admin_code = request.json.get('adminCode')
+    if admin_code != ADMIN_CODE:
+        return abort(403)
     status = [TeamStatus(team, len(model.BoothModel.objects(own_team=team)))
               for team in model.TeamModel.get_all_teams()]
     status.sort(reverse=True, key=lambda x: x.count)
