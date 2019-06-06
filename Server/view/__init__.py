@@ -36,10 +36,29 @@ class Router:
 
         self.app.add_url_rule('/admin/initialize', 'initialize', view_func=initialize, methods=['POST'])
         self.app.add_url_rule('/admin/start', 'start_game', view_func=start_game, methods=['POST'])
+        self.app.add_url_rule('/admin/winner/coupon', 'give_coupons_to_winners', view_func=give_coupon_to_winners, methods=['POST'])
 
 
 def get_all_models():
     return [getattr(model, m) for m in dir(model) if m.endswith('Model')]
+
+
+class TeamStatus:
+    def __init__(self, team: model.TeamModel, count: int):
+        self.team = team
+        self.count = count
+
+
+def give_coupon_to_winners():
+    status = [TeamStatus(team, len(model.BoothModel.objects(own_team=team)))
+              for team in model.TeamModel.get_all_teams()]
+    status.sort(reverse=True, key=lambda x: x.count)
+
+    winners = model.UserModel.get_users_by_team(status[0].team)
+    for user in winners:
+        model.CouponModel.create('땅따먹기 게임 우승 쿠폰', user=user)
+
+    return Response('', 201)
 
 
 def initialize():
