@@ -1,20 +1,62 @@
 [
   {
-    "stamp_name": "stamp 0",
-    "location": "태영이의 마음 속",
+    "stamp_name": "고래 놀이터",
+    "location": "고래 문화 마을",
     "x": 0,
     "y": 0
   },
   {
-    "stamp_name": "stamp 1",
-    "location": "우진이의 마음 속",
-    "x": 20,
-    "y": 30
+    "stamp_name": "토템플",
+    "location": "고래 문화 마을",
+    "x": 0,
+    "y": 0
   },
   {
-    "stamp_name": "stamp 2",
-    "location": "원준이의 귓 속",
-    "x": 40,
-    "y": 40
+    "stamp_name": "장생포 옛마을 입구",
+    "location": "고래 문화 마을",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "stamp_name": "5D 영상관",
+    "location": "고래 문화 마을",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "stamp_name": "고래 이야기길",
+    "location": "고래 문화 마을",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "stamp_name": "고래 조각 정원",
+    "location": "고래 문화 마을",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "stamp_name": "고래 광장",
+    "location": "고래 문화 마을",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "stamp_name": "수생 식물원",
+    "location": "고래 문화 마을",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "stamp_name": "고래 만나는 길",
+    "location": "고래 문화 마을",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "stamp_name": "야외 무대",
+    "location": "고래 문화 마을",
+    "x": 0,
+    "y": 0
   }
 ]

@@ -1,20 +1,122 @@
 [
   {
-    "booth_name": "booth 0",
-    "location": "종현이의 마음 속",
+    "booth_name": "JMF 컨테이너",
+    "location": "장생포 뮤직 페스티벌 내",
     "x": 0,
     "y": 0
   },
   {
-    "booth_name": "booth 1",
-    "location": "태영아 입!",
-    "x": 20,
-    "y": 30
+    "booth_name": "JMF 수제맥주 입구",
+    "location": "장생포 뮤직 페스티벌 내",
+    "x": 0,
+    "y": 0
   },
   {
-    "booth_name": "booth 2",
-    "location": "외로운 나의 마음... :^(",
-    "x": 40,
-    "y": 40
+    "booth_name": "JMF 수제맥주 움막",
+    "location": "장생포 뮤직 페스티벌 내",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "booth_name": "땅따먹기 운영본부",
+    "location": "고래 챌린지런 옆",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "booth_name": "고래생태체험관 입구",
+    "location": "",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "booth_name": "암각화존",
+    "location": "장생포 뮤직 페스티벌 입구",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "booth_name": "키자니아",
+    "location": "",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "booth_name": "챌린지런 운영본부",
+    "location": "",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "booth_name": "고래박물관 입구",
+    "location": "",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "booth_name": "진양 6호 선수창고",
+    "location": "고래 박물관 앞",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "booth_name": "러브웨일",
+    "location": "",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "booth_name": "거리예술로 B",
+    "location": "고래 생태 체험관 앞",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "booth_name": "모노레일 매표소",
+    "location": "고래 박물관 앞",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "booth_name": "웰리키즈랜드 입구",
+    "location": "고래 박물관 건너편",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "booth_name": "물뿜는 고래",
+    "location": "장생포차 옆",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "booth_name": "장식당 입구",
+    "location": "",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "booth_name": "고래바다여행선 승선장",
+    "location": "고래 박물관 뒷편",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "booth_name": "셔틀버스 승차장",
+    "location": "웰리키즈랜드 앞",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "booth_name": "울산 시티투어버스 승차장",
+    "location": "",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "booth_name": "생태 환경 체험 버스",
+    "location": "암각화존 옆",
+    "x": 0,
+    "y": 0
   }
 ]
